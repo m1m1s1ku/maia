@@ -1,6 +1,7 @@
 import '@shoelace-style/shoelace/dist/themes/light.css';
 
 import { html, TemplateResult } from 'lit';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
 import logo from './assets/logo.png';
 

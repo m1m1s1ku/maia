@@ -1,4 +1,5 @@
 import { LitElement, TemplateResult } from 'lit';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { property, query } from 'lit/decorators.js';
 import { load, Router, bootstrap } from '../elara';
 
@@ -21,10 +22,10 @@ export default abstract class Root extends LitElement {
 	public router = Router();
 
 	@property({reflect: true, type: String})
-	public route: string;
+	public route!: string | null;
 
 	@query('#content')
-	protected _content: HTMLDivElement;
+	protected _content!: HTMLDivElement;
 
 	/**
 	 * Inside JS dark-mode handling
@@ -38,7 +39,7 @@ export default abstract class Root extends LitElement {
 		LIGHT: '(prefers-color-scheme: light)',
 	};
 
-	private _onHashChangeListener: () => void;
+	private _onHashChangeListener!: (event: HashChangeEvent) => Promise<void>;
 
 	// Global loader control
 	// Needed for "progressive" app load
@@ -109,7 +110,7 @@ export default abstract class Root extends LitElement {
 	public firstUpdated(): void {
 		const hashEvent = new HashChangeEvent('hashchange', {
 			newURL: location.hash,
-			oldURL: null
+			oldURL: undefined
 		});
 
 		this._onHashChange(hashEvent);
@@ -122,7 +123,7 @@ export default abstract class Root extends LitElement {
 		await this.load(route);
 	}
 		
-	public async load(route: string): Promise<void> {
+	public async load(route: string | null): Promise<void> {
 		this._content.scrollTop = 0;
 		
 		return load(route, this._content);

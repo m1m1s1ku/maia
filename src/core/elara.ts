@@ -30,7 +30,7 @@ export function bootstrap(loadables: string[], host: HTMLElement): Promise<unkno
     return Promise.all(loadPromises);
 }
 
-export async function load(route: string, content: HTMLElement): Promise<void> {
+export async function load(route: string | null, content: HTMLElement): Promise<void> {
     if(!route){
         return;
     }
