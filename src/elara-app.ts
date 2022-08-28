@@ -25,8 +25,8 @@ export class ElaraApp extends Root {
 			<header>
 				<img src="${logo}" alt="Maia logo" />
 				<nav>
-					<a href="/dashboard">Dashboard</a> |
-					<a href="/profile/">Profile</a>
+					<a href="/dashboard">Dashboard</a>
+					<a href="/profile">Profile</a>
 				</nav>
 			</header>
 			<main id="content" class="content"></main>
