@@ -20,8 +20,19 @@ export class ElaraApp extends Root {
 	}
 
 	public render(): TemplateResult {
-		return html`<div id="content" class="content-skeleton">
-			<img src="${logo}" alt="Maia logo" />
+		return html`
+		<div class="maia">
+			<header>
+				<img src="${logo}" alt="Maia logo" />
+				<nav>
+					<a href="/dashboard">Dashboard</a> |
+					<a href="/profile/">Profile</a>
+				</nav>
+			</header>
+			<main id="content" class="content"></main>
+			<footer>
+				© <var>Maia.</var> - ${new Date().getFullYear()}
+			</footer>
 		</div>
 		`;
 	}
