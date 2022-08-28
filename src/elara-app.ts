@@ -2,6 +2,7 @@ import '@shoelace-style/shoelace/dist/themes/light.css';
 
 import { html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
+import logo from './assets/logo.png';
 
 import Root from './core/strategies/Root';
 
@@ -19,7 +20,7 @@ export class ElaraApp extends Root {
 
 	public render(): TemplateResult {
 		return html`<div id="content" class="content-skeleton">
-			Maia.
+			<img src="${logo}" alt="Maia logo" />
 		</div>
 		`;
 	}

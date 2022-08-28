@@ -14,10 +14,16 @@ const ENV = process.argv.find(arg => arg.includes('production'))
 const OUTPUT_PATH = ENV === 'production' ? resolve('dist') : resolve('src');
 const INDEX_TEMPLATE = resolve('./src/index.html');
 
+const assetspath = './assets';
 const webcomponentsjs = './node_modules/@webcomponents/webcomponentsjs';
 const webanimationsjs = './node_modules/web-animations-js';
 
-const assets = [];
+const assets = [
+  {
+    from: resolve(assetspath),
+    to: join(OUTPUT_PATH, 'assets')
+  },
+];
 
 const polyfills = [
   {
@@ -65,7 +71,19 @@ const commonConfig = merge([
               loader: 'ts',
               target: 'chrome80'
             }
-          },
+        },
+        {
+          test: /\.(png|jpg|gif)$/i,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                limit: 8192,
+              }
+            },
+          ],
+         type: 'javascript/auto'
+        },
       ]
     }
   }

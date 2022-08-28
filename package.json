@@ -1,5 +1,5 @@
 {
-  "name": "Maia",
+  "name": "@m1m1s1ku/maia",
   "version": "1.0.0",
   "author": "Léonard C.",
   "license": "MIT",
@@ -11,7 +11,9 @@
   "dependencies": {
     "@shoelace-style/shoelace": "^2.0.0-beta.82",
     "@webcomponents/webcomponentsjs": "^2.6.0",
+    "file-loader": "^6.2.0",
     "lit": "^2.3.1",
+    "url-loader": "^4.1.1",
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {

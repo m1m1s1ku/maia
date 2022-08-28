@@ -7,7 +7,7 @@ export interface UpdatableElement extends HTMLElement {
 }
 export interface LoadableElement extends UpdatableElement { loaded: boolean }
 
-export function Elara(): ElaraApp { return document.querySelector('elara-app'); }
+export function Elara(): ElaraApp | null { return document.querySelector('elara-app'); }
 
 export function bootstrap(loadables: string[], host: HTMLElement): Promise<unknown[]> {
     const loadPromises = [];
@@ -35,15 +35,13 @@ export async function load(route: string, content: HTMLElement): Promise<void> {
         return;
     }
 
-    const defaultTitle = 'XXX';
+    const defaultTitle = 'Maia.';
     const titleTemplate = '%s | ' + defaultTitle;
 
     const Component = customElements.get('ui-' + route);
     content.classList.remove('full-width');
 
-    const NotFound = customElements.get('ui-not-found');
-    const loaded = Component ? new Component() : new NotFound(route);
-
+    const loaded = Component ? new Component() : null;
     const willLoad = loaded as Page;
 
     if(willLoad.head && willLoad.head.title){
@@ -51,10 +49,9 @@ export async function load(route: string, content: HTMLElement): Promise<void> {
     } else {
         document.title = defaultTitle;
     }
-    content.appendChild(loaded);
-    
-    if(loaded instanceof NotFound){
-        throw new Error(route);
+
+    if(loaded){
+        content.appendChild(loaded);
     }
 
     window.scrollTo(0,0);
@@ -145,8 +142,12 @@ export function toDataURL(src: string): Promise<string> {
            const context = canvas.getContext('2d');
            canvas.height = image.naturalHeight;
            canvas.width = image.naturalWidth;
-           context.drawImage(image, 0, 0);
-           resolve(canvas.toDataURL('image/jpeg'));
+           if(context) {
+            context.drawImage(image, 0, 0);
+            resolve(canvas.toDataURL('image/jpeg'));
+           } else {
+            reject(new Error('No context'));
+           }
        };
 
        image.onerror = () => {
