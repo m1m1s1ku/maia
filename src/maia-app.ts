@@ -115,7 +115,12 @@ export class MaiaApp extends Root {
 				}
 
 				if(path && customElements.get('ui-' + path)) {
-					return await this.load(path === Pages.signUp ? Pages.home : path, user);
+					const isSignup = path === Pages.signUp;
+					// Logged in but trying to register.
+					if(isSignup) {
+						location.pathname = path = 'home';
+					}
+					return await this.load(path, user);
 				}
 
 				return await this.load(Pages.home, user);
