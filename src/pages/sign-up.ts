@@ -50,6 +50,14 @@ export class SignUpController extends Page {
         console.warn('registered', user);
     }
 
+    private async signInWithGithub() {
+        const { user, error } = await supabase.auth.signIn({
+            provider: 'github',
+        });
+
+        console.warn(user, error);
+    }
+
     private async signInWithEmail() {
         const email = this.emailField.querySelector('input')?.value;
         const password = this.passwordField.querySelector('input')?.value;
@@ -103,6 +111,10 @@ export class SignUpController extends Page {
                     <button type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithEmail()}>
                         <span class="mdc-button__ripple"></span>
                         Sign in
+                    </button>
+                    <button type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithGithub()}>
+                        <span class="mdc-button__ripple"></span>
+                        Github
                     </button>
                 </div>
             </form>
