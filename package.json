@@ -11,6 +11,7 @@
   "dependencies": {
     "@antv/g2": "^4.2.7",
     "@material/button": "^14.0.0",
+    "@material/elevation": "^14.0.0",
     "@material/list": "^14.0.0",
     "@material/textfield": "^14.0.0",
     "@supabase/supabase-js": "^1.35.6",
