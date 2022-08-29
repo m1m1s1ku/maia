@@ -83,14 +83,14 @@ export class SignUpController extends Page {
             <div class="login-form">
                 <label class="email-field mdc-text-field mdc-text-field--filled">
                     <span class="mdc-text-field__ripple"></span>
-                    <input type="text" class="mdc-text-field__input" aria-labelledby="my-label">
-                    <span class="mdc-floating-label" id="my-label">Email</span>
+                    <input type="text" class="mdc-text-field__input" aria-labelledby="maia-email">
+                    <span class="mdc-floating-label" id="maia-email">Email</span>
                     <span class="mdc-line-ripple"></span>
                 </label>
                 <label class="password-field mdc-text-field mdc-text-field--filled">
                     <span class="mdc-text-field__ripple"></span>
-                    <input type="password" class="mdc-text-field__input" aria-labelledby="my-label">
-                    <span class="mdc-floating-label" id="my-label">Password</span>
+                    <input type="password" class="mdc-text-field__input" aria-labelledby="maia-password">
+                    <span class="mdc-floating-label" id="maia-password">Password</span>
                     <span class="mdc-line-ripple"></span>
                 </label>
                 <div class="login-actions">
