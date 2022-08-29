@@ -45,6 +45,7 @@ export class MaiaApp extends Root {
 	public connectedCallback(): void {
 		super.connectedCallback();
 		this._authSubscription = supabase.auth.onAuthStateChange((change, session) => {
+			console.warn('authsub', session);
 			switch(change) {
 				case 'USER_DELETED':
 				case 'SIGNED_OUT':

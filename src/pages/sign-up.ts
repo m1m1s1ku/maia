@@ -55,7 +55,8 @@ export class SignUpController extends Page {
             provider: 'github',
         });
 
-        console.warn(user, error);
+        this.user = user;
+        this.error = error;
     }
 
     private async signInWithEmail() {
@@ -78,7 +79,6 @@ export class SignUpController extends Page {
             return;
         }
 
-        // redirect to account
         console.warn('logged in', user);
     }
 
