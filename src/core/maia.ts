@@ -44,7 +44,7 @@ export async function load(route: string | null, content: HTMLElement): Promise<
     const loaded = Component ? new Component() : null;
     const willLoad = loaded as Page;
 
-    if(willLoad.head && willLoad.head.title){
+    if(willLoad && willLoad.head && willLoad.head.title){
         document.title = titleTemplate.replace('%s', willLoad.head.title);
     } else {
         document.title = defaultTitle;
@@ -58,6 +58,8 @@ export async function load(route: string | null, content: HTMLElement): Promise<
     window.scrollTo(0,0);
 
     const handle = window.requestAnimationFrame(() => {
+        if(!willLoad) { return; }
+
         const pageContent = willLoad.querySelector('div');
         if(!pageContent){
             cancelAnimationFrame(handle);

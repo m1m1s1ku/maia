@@ -12,6 +12,9 @@ export class SettingsController extends Page {
         <div class="content-section-header">
             <p>Settings</p>
         </div>
+        <div>
+            <h3>Externals</h3>
+        </div>
       </div>
     `;
   }
