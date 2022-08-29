@@ -61,26 +61,31 @@ export class MaiaApp extends Root {
 		}).data;
 
 		this.updateComplete.then(() => {
-			path = path.slice(1);
+			path = path ? path.slice(1) : path;
 
 			switch(path) {
+				case undefined:
 				case '':
 				case 'home':
 				case 'account':
 				case 'sign-up':
 				case 'settings':
-				default:
+				default: {
 					if(this.user) {
-						const hasComponent = customElements.get('ui-' + path);
-						if(hasComponent){
-							this.load(path);
+						if(path) {
+							const hasComponent = customElements.get('ui-' + path);
+							if(hasComponent){
+								this.load(path);
+							}
 							return;
 						}
+
 						this.load('home');
 						return;
 					}
 
 					this.load('sign-up');
+				}
 			}
 		});
 	}
