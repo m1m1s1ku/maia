@@ -65,7 +65,7 @@ export class SettingsController extends Page {
                     </label>
                 </form>
             </section>
-            <button class="mdc-button mdc-button--raised">
+            <button aria-label="Save" class="mdc-button mdc-button--raised">
                 <span class="mdc-button__ripple"></span>
                 ${SaveIcon}
             </button>

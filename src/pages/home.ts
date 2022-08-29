@@ -133,12 +133,12 @@ export class HomeController extends Page {
             <p>Home</p>
             <div class="content-actions">
                 ${this.isBlurred ? html`
-                <button class="mdc-icon-button" @click=${() => { this.isBlurred = false; }}>
+                <button aria-label="show numbers" class="mdc-icon-button" @click=${() => { this.isBlurred = false; }}>
                     <div class="mdc-icon-button__ripple"></div>
                     <span class="mdc-icon-button__focus-ring"></span>
                     ${EyeIcon}
                 </button>` : html`
-                <button class="mdc-icon-button" @click=${() => { this.isBlurred = true; }}>
+                <button aria-label="blur numbers" class="mdc-icon-button" @click=${() => { this.isBlurred = true; }}>
                     <div class="mdc-icon-button__ripple"></div>
                     <span class="mdc-icon-button__focus-ring"></span>
                     ${EyeOffIcon}
@@ -164,7 +164,7 @@ export class HomeController extends Page {
                         </ul>
                     </div>
                     <div class="real-estate-actions">
-                        <button class="mdc-icon-button ${this.chart === ChartTypes.repartition ? 'active' : ''}" role="tab" aria-selected=${this.chart === ChartTypes.repartition} tabindex="0" @click=${async() => {
+                        <button aria-label="Repartition" class="mdc-icon-button ${this.chart === ChartTypes.repartition ? 'active' : ''}" role="tab" aria-selected=${this.chart === ChartTypes.repartition} tabindex="0" @click=${async() => {
                             this.chart = ChartTypes.repartition;
                             await this.updateComplete;
                             if(this.renderRepartitionChart){
@@ -175,7 +175,7 @@ export class HomeController extends Page {
                             <span class="mdc-icon-button__focus-ring"></span>
                             ${PieChartIcon}
                         </button>
-                        <button class="mdc-icon-button ${this.chart === ChartTypes.breakdown ? 'active' : ''}" role="tab" tabindex="0" aria-selected=${this.chart === ChartTypes.breakdown} @click=${async() => {
+                        <button aria-label="Breakdown" class="mdc-icon-button ${this.chart === ChartTypes.breakdown ? 'active' : ''}" role="tab" tabindex="0" aria-selected=${this.chart === ChartTypes.breakdown} @click=${async() => {
                             this.chart = ChartTypes.breakdown;
                             await this.updateComplete;
                             if(this.renderBreakdown){

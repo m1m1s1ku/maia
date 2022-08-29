@@ -93,15 +93,15 @@ export class SignUpController extends Page {
                     <span class="mdc-line-ripple"></span>
                 </label>
                 <div class="login-actions">
-                    <button class="mdc-button mdc-button--raised" @click=${() => this.signUpWithEmail()}>
+                    <button aria-label="Sign up" class="mdc-button mdc-button--raised" @click=${() => this.signUpWithEmail()}>
                         <span class="mdc-button__ripple"></span>
                         Sign up
                     </button>
-                    <button type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithEmail()}>
+                    <button aria-label="Sign in" type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithEmail()}>
                         <span class="mdc-button__ripple"></span>
                         Sign in
                     </button>
-                    <button type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithGithub()}>
+                    <button aria-label="Github" type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithGithub()}>
                         <span class="mdc-button__ripple"></span>
                         Github
                     </button>

@@ -165,12 +165,12 @@ export class MaiaApp extends Root {
 					</div>
 				</div>
 				<div class="app-header-right">
-					<button class="mdc-icon-button notification-btn">
+					<button aria-label="notifications" class="mdc-icon-button notification-btn">
 						<div class="mdc-icon-button__ripple"></div>
 						<span class="mdc-icon-button__focus-ring"></span>
 						${NotificationsIcon}
                 	</button>
-					<button class="profile-btn" @click=${() => {
+					<button aria-label="profile" class="profile-btn" @click=${() => {
 						if(this.user) {
 							this.load('account', this.user);
 						} else {
@@ -179,7 +179,7 @@ export class MaiaApp extends Root {
 					}}>
 					${this.user ? html`
 					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
-					<button class="mdc-icon-button logout-btn" @click=${async () => {
+					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${async () => {
 						const { error } = await auth.signOut();
 						if(error) {
 							console.warn('error while logout', error);
@@ -192,13 +192,13 @@ export class MaiaApp extends Root {
 						${LogoutIcon}
 					</button>
 					` : html`
-					<button class="mdc-icon-button">
+					<button aria-label="login" class="mdc-icon-button">
 						<div class="mdc-icon-button__ripple"></div>
 						<span class="mdc-icon-button__focus-ring"></span>
 						${LoginIcon}
                 	</button>`}
 				</div>
-				<button class="messages-btn">
+				<button aria-label="messages" class="messages-btn">
 					${MessagesCircle}
 				</button>
 			</div>
