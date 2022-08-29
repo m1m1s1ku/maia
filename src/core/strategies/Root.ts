@@ -2,7 +2,7 @@ import { User } from '@supabase/supabase-js';
 import { LitElement, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { property, query } from 'lit/decorators.js';
-import { load, Router, bootstrap } from '../maia';
+import { load, bootstrap } from '../maia';
 
 /**
  * Abtract <*-app> component strategy
@@ -13,15 +13,6 @@ import { load, Router, bootstrap } from '../maia';
  * @extends {LitElement}
  */
 export default abstract class Root extends LitElement {
-	/**
-	 * A really simple router
-	 * 
-	 * Could (or should) be replaced by Crayon (https://github.com/alshdavid/crayon) depending on usage
-	 *
-	 * @memberof Root
-	 */
-	public router = Router();
-
 	@property({reflect: true, type: String})
 	public route!: string | null;
 
@@ -101,7 +92,7 @@ export default abstract class Root extends LitElement {
 			this.connectedCallback();
 			await this.updateComplete;
 		}
-		
+
 		if(this._content) {
 			this._content.scrollTop = 0;
 		}
