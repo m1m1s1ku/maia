@@ -76,7 +76,7 @@ export class SignUpController extends Page {
         return html`
         <div id="page" class="page" role="main">
             <div class="content-section-header">
-                <p>Sign up</p>
+                <p>Connect</p>
             </div>
             <div class="login-form">
                 <label class="email-field mdc-text-field mdc-text-field--filled">
