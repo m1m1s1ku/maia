@@ -9,6 +9,7 @@
     "url": "https://github.com/m1m1s1ku/maia"
   },
   "dependencies": {
+    "@antv/g2": "^4.2.7",
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "file-loader": "^6.2.0",
     "lit": "^2.3.1",

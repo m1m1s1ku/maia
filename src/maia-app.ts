@@ -6,6 +6,8 @@ import mimisiku from './mimisiku.png';
 
 import Root from './core/strategies/Root';
 
+import './pages/index';
+
 @customElement('maia-app')
 export class MaiaApp extends Root {
 	public static readonly is: string = 'maia-app';
@@ -88,10 +90,7 @@ export class MaiaApp extends Root {
 					</a>
 				</div>
 				<div class="projects-section">
-					<div class="projects-section-header">
-						<p></p>
-					</div>
-					<div class="project-boxes" id="content"></div>
+					<ui-home></ui-home>
 				</div>
 				<div class="messages-section">
 					<button class="messages-close">
