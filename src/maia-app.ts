@@ -11,8 +11,7 @@ import './pages/index';
 
 import supabase from './supabase';
 
-// @ts-expect-error shitty lib, see to replace
-import MD5 from 'md5.js';
+import {Md5} from 'ts-md5';
 
 @customElement('maia-app')
 export class MaiaApp extends Root {
@@ -44,7 +43,7 @@ export class MaiaApp extends Root {
 			return;
 		}
 
-		this.emailHash = new MD5().update(user?.email?.trim().toLowerCase() ?? '').digest('hex');
+		this.emailHash = Md5.hashStr(user?.email?.trim().toLowerCase() ?? '');
 		this.user = user;
 
 		return user;
