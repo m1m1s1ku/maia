@@ -3,7 +3,6 @@
 
 const { resolve, join } = require('path');
 const {merge} = require('webpack-merge');
-const { ProvidePlugin } = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
@@ -101,9 +100,6 @@ const developmentConfig = merge([
         template: INDEX_TEMPLATE
       }),
       new ESLintPlugin(),
-      new ProvidePlugin({
-        Buffer: ['buffer', 'Buffer'],
-      })
     ],
 
     devServer: {
@@ -130,9 +126,6 @@ const productionConfig = merge([
           minifyJS: true
         }
       }),
-      new ProvidePlugin({
-        Buffer: ['buffer', 'Buffer'],
-      })
     ]
   }
 ]);
