@@ -7,7 +7,6 @@ import { query, state } from 'lit/decorators.js';
 import Page from '../core/strategies/Page';
 import { renderBreakdown, renderRepartitionChart } from '../charts';
 import { MDCList } from '@material/list';
-import { MDCTabBar } from '@material/tab-bar';
 
 enum ChartTypes {
     repartition = 'repartition',
@@ -28,8 +27,6 @@ export class HomeController extends Page {
 
   @state()
   public data: { totalValueOfMyBricks: number; totalValueOfMyBricksPercent: number; totalDividendsReceived: number; totalDividendsReceivedPercent: number; totalEarnedAmount: number; totalEarnedAmountPercent: number; numberOfPropertiesInvestedIn: number; chart: { name: { en: string; fr: string; }; percent: number; price: number; id: string; }[]; };
-  @query('.mdc-tab-bar')
-  private chartTabBar!: HTMLDivElement;
 
   @state()
   private chart: string = ChartTypes.repartition;
@@ -73,7 +70,6 @@ export class HomeController extends Page {
     renderRepartitionChart(this.chartContainer, this.data);
     MDCList.attachTo(this.assetsList);
     MDCList.attachTo(this.liabilitiesList);
-    MDCTabBar.attachTo(this.chartTabBar);
   }
 
   public render(): void | TemplateResult {
@@ -126,41 +122,27 @@ export class HomeController extends Page {
         </div>
         <div class="charts">
             <section class="real-estate mobile-hidden">
-                <h4>Real estate</h4>
-                <div class="mdc-tab-bar" role="tablist">
-                    <div class="mdc-tab-scroller">
-                        <div class="mdc-tab-scroller__scroll-area">
-                            <div class="mdc-tab-scroller__scroll-content">
-                                <button class="mdc-tab ${this.chart === ChartTypes.repartition ? 'mdc-tab--active' : ''}" role="tab" aria-selected=${this.chart === ChartTypes.repartition} tabindex="0" @click=${async() => {
-                                    this.chart = ChartTypes.repartition;
-                                    await this.updateComplete;
-                                    renderRepartitionChart(this.chartContainer, this.data);
-                                }}>
-                                    <span class="mdc-tab__content">
-                                        <span class="mdc-tab__text-label">Repartition</span>
-                                    </span>
-                                    <span class="mdc-tab-indicator ${this.chart === ChartTypes.repartition ? 'mdc-tab-indicator--active' : ''}">
-                                        <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
-                                    </span>
-                                    <span class="mdc-tab__ripple"></span>
-                                    <div class="mdc-tab__focus-ring"></div>
-                                </button>
-                                <button class="mdc-tab ${this.chart === ChartTypes.breakdown ? 'mdc-tab--active' : ''}" role="tab" tabindex="0" aria-selected=${this.chart === ChartTypes.breakdown} @click=${async() => {
-                                    this.chart = ChartTypes.breakdown;
-                                    await this.updateComplete;
-                                    renderBreakdown(this.chartContainer, this.data);
-                                }}>
-                                    <span class="mdc-tab__content">
-                                        <span class="mdc-tab__text-label">Breakdown</span>
-                                    </span>
-                                    <span class="mdc-tab-indicator ${this.chart === ChartTypes.breakdown ? 'mdc-tab-indicator--active' : ''}">
-                                        <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
-                                    </span>
-                                    <span class="mdc-tab__ripple"></span>
-                                    <div class="mdc-tab__focus-ring"></div>
-                                </button>
-                            </div>
-                        </div>
+                <div class="real-estate-header">
+                    <h4>Real estate</h4>
+                    <div class="real-estate-actions">
+                        <button class="mdc-icon-button ${this.chart === ChartTypes.repartition ? 'active' : ''}" role="tab" aria-selected=${this.chart === ChartTypes.repartition} tabindex="0" @click=${async() => {
+                            this.chart = ChartTypes.repartition;
+                            await this.updateComplete;
+                            renderRepartitionChart(this.chartContainer, this.data);
+                        }}>
+                            <div class="mdc-icon-button__ripple"></div>
+                            <span class="mdc-icon-button__focus-ring"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                        </button>
+                        <button class="mdc-icon-button ${this.chart === ChartTypes.breakdown ? 'active' : ''}" role="tab" tabindex="0" aria-selected=${this.chart === ChartTypes.breakdown} @click=${async() => {
+                            this.chart = ChartTypes.breakdown;
+                            await this.updateComplete;
+                            renderBreakdown(this.chartContainer, this.data);
+                        }}>
+                            <div class="mdc-icon-button__ripple"></div>
+                            <span class="mdc-icon-button__focus-ring"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-left"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+                        </button>
                     </div>
                 </div>
                 <div class="chart-container"></div>
