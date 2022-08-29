@@ -26,11 +26,11 @@ export class HomeController extends Page {
   constructor() {
     super();
     const stub = {
-        totalValueOfMyBricks:95427,
+        totalValueOfMyBricks:95427*0.01,
         totalValueOfMyBricksPercent:-4.910567485426736,
         totalDividendsReceived:0,
         totalDividendsReceivedPercent:0,
-        totalEarnedAmount:100355,
+        totalEarnedAmount:100355*0.01,
         totalEarnedAmountPercent:-4.910567485426736,
         numberOfPropertiesInvestedIn:14,
         chart:[
@@ -76,7 +76,7 @@ export class HomeController extends Page {
         },
         {
             name: 'Bricks',
-            total: '954,27€',
+            total: this.data.totalValueOfMyBricks + '€',
         },
         {
             name: 'Crypto',
@@ -114,8 +114,10 @@ export class HomeController extends Page {
         </div>
         <div class="charts">
             <section class="repartition mobile-hidden">
-                <h4>Immo</h4>
+                <h4>Real estate</h4>
                 <div class="repartition-chart-container"></div>
+                <p>Total value of my bricks: ${this.data.totalValueOfMyBricks}€</p>
+                <p>Capital gain: ${this.data.totalValueOfMyBricksPercent.toFixed(2)}%</p>
             </section>
             <section>
                 <h3 class="mdc-typography--subtitle1">Assets</h3>
