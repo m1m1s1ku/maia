@@ -51,6 +51,7 @@ export async function load(route: string | null, content: HTMLElement): Promise<
     }
 
     if(loaded){
+        content.innerHTML = '';
         content.appendChild(loaded);
     }
 
