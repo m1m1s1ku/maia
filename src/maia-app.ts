@@ -20,7 +20,7 @@ export class MaiaApp extends Root {
 		return [
 			'ui-home',
 			'ui-account',
-			'ui-login',
+			'ui-sign-up',
 			'ui-settings',
 		];
 	}
