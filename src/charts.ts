@@ -2,6 +2,9 @@ import { Chart, Util } from '@antv/g2';
 
 const kPastelColors = ['#A7CBD0', '#C5A2C5', '#ECE4D9', '#DBBAC1', '#BDCCAC', '#CFDBDB', '#E6E0CE', '#D5CFC0', '#EFEFEF', '#D2E6D4', '#FFB3BA', '#FFDFBA'];
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type ChartRenderFn = Function;
+
 export function renderRepartitionChart(container: HTMLElement, data: {
     chart: {
         id:string
@@ -69,7 +72,7 @@ export function renderRepartitionChart(container: HTMLElement, data: {
     return chart;
 }
 
-export function renderBreakdown(container: HTMLElement, data:{
+export function renderBreakdown(container: HTMLElement, data: {
     chart: {
         id:string
         name: {en: string, fr: string}

@@ -1,4 +1,6 @@
-import { Subscription, User } from '@supabase/supabase-js';
+import type { Subscription, User } from '@supabase/supabase-js';
+import { Md5 } from 'ts-md5';
+
 import { html, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
@@ -7,11 +9,7 @@ import { state } from 'lit/decorators.js';
 
 import Root from './core/strategies/Root';
 
-import './pages/index';
-
-import supabase from './supabase';
-
-import {Md5} from 'ts-md5';
+import { auth } from './supabase';
 
 @customElement('maia-app')
 export class MaiaApp extends Root {
@@ -51,7 +49,8 @@ export class MaiaApp extends Root {
 
 	constructor(path: string) {
 		super();
-		this.authSubscription = supabase.auth.onAuthStateChange((change, session) => {
+
+		this.authSubscription = auth.onAuthStateChange((change, session) => {
 			console.warn('authsub', session);
 			switch(change) {
 			  case 'USER_DELETED':
@@ -69,33 +68,35 @@ export class MaiaApp extends Root {
 			}
 		}).data;
 
-		this.routing = new Promise((resolve) => {
-			const user = this.prepareUser(supabase.auth.user());
-			path = path ? path.slice(1) : path;
-
-			switch(path) {
-				case undefined:
-				case '':
-				case 'home':
-				case 'account':
-				case 'sign-up':
-				case 'settings':
-				default: {
-					console.warn(path, user);
-					if(user) {
-						if(path) {
-							const hasComponent = customElements.get('ui-' + path);
-							if(hasComponent){
-								return this.load(path, user).then(resolve);
+		this.routing = import('./pages').then(() => {
+			return new Promise((resolve) => {
+				const user = this.prepareUser(auth.user());
+				path = path ? path.slice(1) : path;
+	
+				switch(path) {
+					case undefined:
+					case '':
+					case 'home':
+					case 'account':
+					case 'sign-up':
+					case 'settings':
+					default: {
+						console.warn(path, user);
+						if(user) {
+							if(path) {
+								const hasComponent = customElements.get('ui-' + path);
+								if(hasComponent){
+									return this.load(path, user).then(resolve);
+								}
 							}
+	
+							return this.load('home', user).then(resolve);
 						}
-
-						return this.load('home', user).then(resolve);
+	
+						return this.load('sign-up', null).then(resolve);
 					}
-
-					return this.load('sign-up', null).then(resolve);
 				}
-			}
+			});
 		});
 	}
 
@@ -169,7 +170,7 @@ export class MaiaApp extends Root {
 					${this.user ? html`
 					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
 					<button class="mdc-icon-button logout-btn" @click=${async () => {
-						const { error } = await supabase.auth.signOut();
+						const { error } = await auth.signOut();
 						if(error) {
 							console.warn('error while logout', error);
 						}

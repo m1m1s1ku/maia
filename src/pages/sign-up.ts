@@ -1,5 +1,3 @@
-import { MDCTextField } from '@material/textfield';
-import { ApiError, User } from '@supabase/supabase-js';
 import { html, TemplateResult } from 'lit-html';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { query } from 'lit/decorators.js';
@@ -11,15 +9,13 @@ import supabase from '../supabase';
 
 @customElement('ui-sign-up')
 export class SignUpController extends Page {
-    private user: User | null = null;
-    private error: ApiError | null = null;
-
     @query('.email-field')
     private emailField!: HTMLLabelElement;
     @query('.password-field')
     private passwordField!: HTMLLabelElement;
 
-    protected firstUpdated(): void {
+    protected async firstUpdated(): Promise<void> {
+        const { MDCTextField } = await import('@material/textfield');
         MDCTextField.attachTo(this.emailField);
         MDCTextField.attachTo(this.passwordField);
     }
@@ -36,8 +32,6 @@ export class SignUpController extends Page {
             email,
             password,
         });
-        this.user = user;
-        this.error = error;
 
         if(error) {
             // Show toast
@@ -55,9 +49,7 @@ export class SignUpController extends Page {
         const { user, error } = await supabase.auth.signIn({
             provider: 'github',
         });
-
-        this.user = user;
-        this.error = error;
+        console.warn('signed in with github', user, error);
     }
 
     private async signInWithEmail() {
@@ -72,8 +64,6 @@ export class SignUpController extends Page {
             email,
             password,
         });
-        this.user = user;
-        this.error = error;
 
         if(error) {
             // Show toast

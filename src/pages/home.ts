@@ -5,9 +5,9 @@ import { customElement } from 'lit/decorators/custom-element.js';
 import { query, state } from 'lit/decorators.js';
 
 import Page from '../core/strategies/Page';
-import { renderBreakdown, renderRepartitionChart } from '../charts';
-import { MDCList } from '@material/list';
-import { MDCMenu } from '@material/menu';
+
+import type { MDCMenu } from '@material/menu';
+import type { ChartRenderFn } from '../charts';
 
 enum ChartTypes {
     repartition = 'repartition',
@@ -37,8 +37,12 @@ export class HomeController extends Page {
   @state()
   private selectedClass = 'Real estate';
 
+  private renderBreakdown: ChartRenderFn | null = null;
+  private renderRepartitionChart: ChartRenderFn | null = null;
+
   constructor() {
     super();
+
     const stub = {
         totalValueOfMyBricks:95427*0.01,
         totalValueOfMyBricksPercent:-4.910567485426736,
@@ -73,9 +77,20 @@ export class HomeController extends Page {
   }
 
   public async firstUpdated(): Promise<void> {
-    renderRepartitionChart(this.chartContainer, this.data);
+    const {renderBreakdown, renderRepartitionChart} = await import('../charts');
+    this.renderBreakdown = renderBreakdown;
+    this.renderRepartitionChart = renderRepartitionChart;
+
+    this.renderRepartitionChart(this.chartContainer, this.data);
+
+    const [{MDCList}, {MDCMenu}] = await Promise.all([
+        import('@material/list'),
+        import('@material/menu'),
+    ]);
+
     MDCList.attachTo(this.assetsList);
     MDCList.attachTo(this.liabilitiesList);
+
     this.menu = MDCMenu.attachTo(this.classSwitch);
     this.classSwitch.addEventListener('MDCMenu:selected', (e: Event) => {
         const event = e as CustomEvent<{ index: number; item: HTMLElement; }>;
@@ -152,7 +167,9 @@ export class HomeController extends Page {
                         <button class="mdc-icon-button ${this.chart === ChartTypes.repartition ? 'active' : ''}" role="tab" aria-selected=${this.chart === ChartTypes.repartition} tabindex="0" @click=${async() => {
                             this.chart = ChartTypes.repartition;
                             await this.updateComplete;
-                            renderRepartitionChart(this.chartContainer, this.data);
+                            if(this.renderRepartitionChart){
+                                this.renderRepartitionChart(this.chartContainer, this.data);
+                            }
                         }}>
                             <div class="mdc-icon-button__ripple"></div>
                             <span class="mdc-icon-button__focus-ring"></span>
@@ -161,7 +178,9 @@ export class HomeController extends Page {
                         <button class="mdc-icon-button ${this.chart === ChartTypes.breakdown ? 'active' : ''}" role="tab" tabindex="0" aria-selected=${this.chart === ChartTypes.breakdown} @click=${async() => {
                             this.chart = ChartTypes.breakdown;
                             await this.updateComplete;
-                            renderBreakdown(this.chartContainer, this.data);
+                            if(this.renderBreakdown){
+                                this.renderBreakdown(this.chartContainer, this.data);
+                            }
                         }}>
                             <div class="mdc-icon-button__ripple"></div>
                             <span class="mdc-icon-button__focus-ring"></span>
