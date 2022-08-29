@@ -89,41 +89,43 @@ export class MaiaApp extends Root {
 		}).data;
 
 		this.routing = import('./pages').then(() => {
-			return new Promise((resolve) => {
-				const user = this.prepareUser(auth.user());
-				if(path === undefined || path === null) {
-					path = Pages.root;
-				}
-
-				path = path.startsWith('/') ? path.slice(1) : path;
-	
-				switch(path) {
-					case Pages.root:
-					case Pages.home:
-					case Pages.account:
-					case Pages.signUp:
-					case Pages.settings:
-					default: {
-						console.warn(path, user);
-						if(user) {
-							if(path) {
-								const hasComponent = customElements.get('ui-' + path);
-								if(hasComponent){
-									return this.load(path, user).then(resolve);
-								}
-							}
-	
-							return this.load('home', user).then(resolve);
-						}
-	
-						return this.load('sign-up', null).then(resolve);
-					}
-				}
-			});
+			return this.firstLoad(path);
 		}).then(() => {
 			// At this point of time, we should be able to do anything with the App.
 			// @todo : fix darkmode toggle
 		});
+	}
+
+	private async firstLoad(path: string): Promise<HTMLElement | null> {
+		const user = this.prepareUser(auth.user());
+		if(path === undefined || path === null) {
+			path = Pages.root;
+		}
+
+		path = path.startsWith('/') ? path.slice(1) : path;
+
+		switch(path) {
+			case Pages.root:
+			case Pages.home:
+			case Pages.account:
+			case Pages.signUp:
+			case Pages.settings:
+			default: {
+				console.warn(path, user);
+				if(user) {
+					if(path) {
+						const hasComponent = customElements.get('ui-' + path);
+						if(hasComponent){
+							return await this.load(path, user);
+						}
+					}
+
+					return await this.load('home', user);
+				}
+
+				return await this.load('sign-up', null);
+			}
+		}
 	}
 
 	private inactiveSidebarLinks(linkElement: HTMLLinkElement, e: Event) {

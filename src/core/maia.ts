@@ -24,13 +24,17 @@ export function bootstrap(loadables: string[], host: HTMLElement): Promise<unkno
             });
             observer.observe(elem, config);
         });
-        loadPromises.push(load);
+        
+        loadPromises.push(
+            customElements.whenDefined(element), 
+            load
+        );
     }
     
     return Promise.all(loadPromises);
 }
 
-export async function load(route: string | null, content: HTMLElement | null, user?: User | null): Promise<void> {
+export async function load(route: string | null, content: HTMLElement | null, user?: User | null): Promise<HTMLElement | null> {
     if(!content){
         throw new Error('Fatal, LitElement not ready.');
     }
@@ -75,4 +79,6 @@ export async function load(route: string | null, content: HTMLElement | null, us
         const animation = pulseWith(300);			
         pageContent.animate(animation.effect, animation.options);
     });
+
+    return loaded;
 }

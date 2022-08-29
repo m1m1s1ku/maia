@@ -57,7 +57,7 @@ export default abstract class Root extends LitElement {
 	
 	protected createRenderRoot(): this { return this; }
 
-	public async load(route: string | null, user?: User | null): Promise<void> {
+	public async load(route: string | null, user?: User | null): Promise<HTMLElement | null> {
 		if(!this._content) {
 			// Workaround, boot will start routing asap (onDomLoaded)
 			// enforce LitElement update to happen before loading.

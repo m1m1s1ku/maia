@@ -14,14 +14,14 @@ async function onDomLoaded(){
   await Promise.all([
     maia.bootstrap,
     ...maia.needed.map(needed => customElements.whenDefined(needed)),
+    maia.routing,
   ]);
 
-  await maia.routing;
-
   document.body.appendChild(maia);
+  const loaderFadeOutDuration = 1200;
   const fadeOut = loader.animate({
     opacity: [1, 0],
-  }, 1000);
+  }, loaderFadeOutDuration);
 
   await fadeOut.finished;
   loader.parentElement.removeChild(loader);
