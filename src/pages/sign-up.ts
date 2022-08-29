@@ -5,6 +5,7 @@ import { html, TemplateResult } from 'lit-html';
 import { query } from 'lit/decorators.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
+import { Maia } from '../core/maia';
 
 import Page from '../core/strategies/Page';
 import supabase from '../supabase';
@@ -48,6 +49,7 @@ export class SignUpController extends Page {
 
         // redirect to account
         console.warn('registered', user);
+        // Maia()?.load('home');
     }
 
     private async signInWithGithub() {
@@ -57,6 +59,8 @@ export class SignUpController extends Page {
 
         this.user = user;
         this.error = error;
+
+        Maia()?.load('home');
     }
 
     private async signInWithEmail() {
@@ -80,6 +84,7 @@ export class SignUpController extends Page {
         }
 
         console.warn('logged in', user);
+        Maia()?.load('home');
     }
 
     public render(): void | TemplateResult {
