@@ -80,7 +80,9 @@ export class SignUpController extends Page {
             <div class="content-section-header">
                 <p>Connect</p>
             </div>
-            <div class="login-form">
+            <form class="login-form" @submit=${(e: Event) => {
+                e.preventDefault();
+            }}>
                 <label class="email-field mdc-text-field mdc-text-field--filled">
                     <span class="mdc-text-field__ripple"></span>
                     <input type="text" class="mdc-text-field__input" aria-labelledby="maia-email">
@@ -98,12 +100,12 @@ export class SignUpController extends Page {
                         <span class="mdc-button__ripple"></span>
                         Sign up
                     </button>
-                    <button class="mdc-button mdc-button--raised" @click=${() => this.signInWithEmail()}>
+                    <button type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithEmail()}>
                         <span class="mdc-button__ripple"></span>
                         Sign in
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
         `;
     }
