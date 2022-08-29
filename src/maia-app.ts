@@ -38,7 +38,7 @@ export class MaiaApp extends Root {
 		];
 	}
 
-	constructor() {
+	constructor(path: string) {
 		super();
 		this.authSubscription = supabase.auth.onAuthStateChange((change, session) => {
 			console.warn('authsub', session);
@@ -59,6 +59,30 @@ export class MaiaApp extends Root {
 				break;
 			}
 		}).data;
+
+		this.updateComplete.then(() => {
+			path = path.slice(1);
+
+			switch(path) {
+				case '':
+				case 'home':
+				case 'account':
+				case 'sign-up':
+				case 'settings':
+				default:
+					if(this.user) {
+						const hasComponent = customElements.get('ui-' + path);
+						if(hasComponent){
+							this.load(path);
+							return;
+						}
+						this.load('home');
+						return;
+					}
+
+					this.load('sign-up');
+			}
+		});
 	}
 
 	private inactiveSidebarLinks(linkElement: HTMLLinkElement, e: Event) {
@@ -189,13 +213,7 @@ export class MaiaApp extends Root {
 						</svg>
 					</a>
 				</div>
-				<div class="content-section" id="content">
-					${this.user ? html`
-					<ui-home></ui-home>
-					` : html`
-					<ui-sign-up></ui-sign-up>
-					`}
-				</div>
+				<div class="content-section" id="content"></div>
 				${this.user ? html`
 				<div class="messages-section">
 					<button class="messages-close">
