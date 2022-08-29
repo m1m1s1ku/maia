@@ -32,12 +32,12 @@ export class AccountController extends Page {
         <section class="user-info">
             <p>Email: ${user?.email}</p>
             <p>Created at: ${prettyDate(user?.created_at)}</p>
-            <p>Confirmation sent at: ${prettyDate(user?.confirmation_sent_at)}</p>
+            <!--<p>Confirmation sent at: ${prettyDate(user?.confirmation_sent_at)}</p>
             <p>Confirmed at: ${prettyDate(user?.confirmed_at)}</p>
-            <p>Updated at: ${prettyDate(user?.updated_at)}</p>
+            <p>Updated at: ${prettyDate(user?.updated_at)}</p> -->
             <p>Last sign in: ${prettyDate(user?.last_sign_in_at)}</p>
         </section>
-        <section class="identities">
+        <!-- <section class="identities">
           ${user?.identities ? html`
           ${user.identities.map(identity => {
             return html`
@@ -47,7 +47,7 @@ export class AccountController extends Page {
             </div>
             `;
           })}` : html``}
-        </section>
+        </section>-->
       </div>
     `;
   }
