@@ -116,7 +116,6 @@ export class MaiaApp extends Root {
 					}}>
 					${this.user ? html`
 					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
-					<span>${this.user.email}</span>
 					<button class="logout-btn" @click=${async () => {
 						const { error } = await supabase.auth.signOut();
 						if(error) {
