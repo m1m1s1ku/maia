@@ -96,8 +96,7 @@ export class MaiaApp extends Root {
 	}
 
 	public render(): TemplateResult {
-		return html`
-<div class="maia">
+		return html`<div class="maia">
 	<div class="app-container">
 		<div class="app-header">
 				<div class="app-header-left">
@@ -161,6 +160,7 @@ export class MaiaApp extends Root {
 							console.warn('error while logout', error);
 						}
 						this.user = null;
+						this.load('sign-up');
 					}}>
 						<div class="mdc-icon-button__ripple"></div>
 						<span class="mdc-icon-button__focus-ring"></span>
