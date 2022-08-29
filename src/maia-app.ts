@@ -11,6 +11,14 @@ import Root from './core/strategies/Root';
 
 import { auth } from './supabase';
 
+enum Pages {
+	root = '',
+	home = 'home',
+	account = 'account',
+	signUp = 'sign-up',
+	settings = 'settings',
+}
+
 @customElement('maia-app')
 export class MaiaApp extends Root {
 	public static readonly is: string = 'maia-app';
@@ -71,15 +79,18 @@ export class MaiaApp extends Root {
 		this.routing = import('./pages').then(() => {
 			return new Promise((resolve) => {
 				const user = this.prepareUser(auth.user());
-				path = path ? path.slice(1) : path;
+				if(path === undefined || path === null) {
+					path = Pages.root;
+				}
+
+				path = path.startsWith('/') ? path.slice(1) : path;
 	
 				switch(path) {
-					case undefined:
-					case '':
-					case 'home':
-					case 'account':
-					case 'sign-up':
-					case 'settings':
+					case Pages.root:
+					case Pages.home:
+					case Pages.account:
+					case Pages.signUp:
+					case Pages.settings:
 					default: {
 						console.warn(path, user);
 						if(user) {
