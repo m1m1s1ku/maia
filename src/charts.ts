@@ -1,5 +1,7 @@
 import { Chart, Util } from '@antv/g2';
 
+const kPastelColors = ['#A7CBD0', '#C5A2C5', '#ECE4D9', '#DBBAC1', '#BDCCAC', '#CFDBDB', '#E6E0CE', '#D5CFC0', '#EFEFEF', '#D2E6D4', '#FFB3BA', '#FFDFBA'];
+
 export function renderRepartitionChart(container: HTMLElement, data: {
     chart: {
         id:string
@@ -33,7 +35,7 @@ export function renderRepartitionChart(container: HTMLElement, data: {
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('name', ['#A7CBD0', '#C5A2C5', '#ECE4D9', '#DBBAC1', '#BDCCAC', '#CFDBDB', '#E6E0CE', '#D5CFC0', '#EFEFEF', '#D2E6D4', '#FFB3BA', '#FFDFBA'])
+    .color('name', kPastelColors)
     .style({ opacity: 0.4 })
     .state({
         active: {
@@ -112,12 +114,12 @@ export function renderBreakdown(container: HTMLElement, data:{
             } else {
                 view.axis(false);
             }
-            const color = '#1890ff';
+
             view
             .interval()
             .adjust('stack')
             .position('name*value')
-            .color('name', [color, '#ebedf0'])
+            .color('name', kPastelColors)
             .size(20);
             view.interaction('element-active');
         }

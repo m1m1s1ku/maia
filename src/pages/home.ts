@@ -164,39 +164,55 @@ export class HomeController extends Page {
                     </div>
                 </div>
                 <div class="chart-container"></div>
-                <p>Total value: ${this.data.totalValueOfMyBricks}€</p>
-                <p>Capital gain: ${this.data.totalValueOfMyBricksPercent.toFixed(2)}%</p>
             </section>
-            <section>
-                <h3 class="mdc-typography--subtitle1">Assets</h3>
-                <ul class="mdc-list assets-list mdc-list--two-line">
-                    ${assets.map(asset => {
-                        return html`
+            <div class="right-column">
+                <section class="assets-liabilities">
+                    <div class="listing">
+                        <h3 class="mdc-typography--subtitle1">Assets</h3>
+                        <ul class="mdc-list assets-list mdc-list--two-line">
+                            ${assets.map(asset => {
+                                return html`
+                                <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
+                                    <span class="mdc-list-item__text">
+                                        <span class="mdc-list-item__primary-text">${asset.name}</span>
+                                        <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${asset.total}</span>
+                                    </span>
+                                </li>
+                                `;
+                            })}
+                        </ul>
+                    </div>
+                    <div class="listing">
+                        <h3 class="mdc-typography--subtitle1">Liabilities</h3>
+                        <ul class="mdc-list liabilities-list mdc-list--two-line">
+                            ${liabilities.map(liability => {
+                                return html`
+                                <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
+                                    <span class="mdc-list-item__text">
+                                        <span class="mdc-list-item__primary-text">${liability.name}</span>
+                                        <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${liability.total}</span>
+                                    </span>
+                                </li>
+                                `;
+                            })}
+                        </ul>
+                    </div>
+                </section>
+                <ul class="mdc-list value-gain mdc-list--two-line">
                         <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                             <span class="mdc-list-item__text">
-                                <span class="mdc-list-item__primary-text">${asset.name}</span>
-                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${asset.total}</span>
+                                <span class="mdc-list-item__primary-text">Total value:</span>
+                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${this.data.totalValueOfMyBricks}€</span>
                             </span>
                         </li>
-                        `;
-                    })}
-                </ul>
-            </section>
-            <section>
-                <h3 class="mdc-typography--subtitle1">Liabilities</h3>
-                <ul class="mdc-list liabilities-list mdc-list--two-line">
-                    ${liabilities.map(liability => {
-                        return html`
                         <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                             <span class="mdc-list-item__text">
-                                <span class="mdc-list-item__primary-text">${liability.name}</span>
-                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${liability.total}</span>
+                                <span class="mdc-list-item__primary-text">Capital gain:</span>
+                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${this.data.totalValueOfMyBricksPercent.toFixed(2)}%</span>
                             </span>
                         </li>
-                        `;
-                    })}
                 </ul>
-            </section>
+            </div>
         </div>
       </div>
     `;
