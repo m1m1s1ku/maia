@@ -32,7 +32,7 @@ export function renderRepartitionChart(container: HTMLElement, data: {
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('name', ['#063d8a', '#1770d6', '#47abfc', '#38c060'])
+    .color('name', ['#A7CBD0', '#C5A2C5', '#ECE4D9', '#DBBAC1', '#BDCCAC', '#CFDBDB', '#E6E0CE', '#D5CFC0', '#EFEFEF', '#D2E6D4', '#FFB3BA', '#FFDFBA'])
     .style({ opacity: 0.4 })
     .state({
         active: {
