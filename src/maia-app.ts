@@ -1,6 +1,11 @@
+import { User } from '@supabase/supabase-js';
 import { html, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { state } from 'lit/decorators.js';
+
+import { MD5 } from 'crypto-js';
 
 import Root from './core/strategies/Root';
 
@@ -10,6 +15,11 @@ import supabase from './supabase';
 @customElement('maia-app')
 export class MaiaApp extends Root {
 	public static readonly is: string = 'maia-app';
+
+	@state()
+	private user: User | null | undefined = undefined;
+	@state()
+	private emailHash = '';
 
 	public get loadables(): string[] {
 		return [];
@@ -24,10 +34,29 @@ export class MaiaApp extends Root {
 		];
 	}
 
-	public firstUpdated(): void {
+	constructor() {
+		super();
 		supabase.auth.onAuthStateChange((change, session) => {
-			console.warn('supabase change', change, session);
+			switch(change) {
+				case 'USER_DELETED':
+				case 'SIGNED_OUT':
+					this.user = undefined;
+					break;
+				case 'SIGNED_IN':
+				case 'TOKEN_REFRESHED':
+				case 'USER_UPDATED':
+					this.user = session?.user;
+					break;
+				case 'PASSWORD_RECOVERY':
+					break;
+			}
 		});
+
+		this.user = supabase.auth.user();
+		if(this.user) {
+			this.emailHash = MD5(this.user.email?.trim().toLowerCase() ?? '').toString();
+		}
+		this.requestUpdate();
 	}
 
 	public render(): TemplateResult {
@@ -69,8 +98,17 @@ export class MaiaApp extends Root {
 						<path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
 					</button>
 					<button class="profile-btn" @click=${() => {
-						this.load('sign-up');
-					}}>Connect</button>
+						if(this.user) {
+							this.load('account');
+						} else {
+							this.load('sign-up');
+						}
+					}}>
+					${this.user ? html`
+					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
+					<span>${this.user.email}</span>
+					` : html`Connect`}
+					</button>
 				</div>
 				<button class="messages-btn">
 					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
