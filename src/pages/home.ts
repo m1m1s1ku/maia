@@ -35,33 +35,66 @@ export class HomeController extends Page {
     MDCList.attachTo(this.liabilitiesList);
   }
 
+  private hideSensitive() {
+    const blurredNodes = this.querySelectorAll('.not-blurry');
+    blurredNodes.forEach(node => {
+        node.classList.remove('not-blurry');
+        node.classList.add('blurry');
+    });
+    this.isBlurred = true;
+  }
+
+  private showSensitive() {
+    const blurredNodes = this.querySelectorAll('.blurry');
+    blurredNodes.forEach(node => {
+        node.classList.add('not-blurry');
+        node.classList.remove('blurry');
+    });
+    this.isBlurred = false;
+  }
+
   public render(): void | TemplateResult {
+    const assets = [
+        {
+            name: 'Savings',
+            total: '4439€',
+        },
+        {
+            name: 'Shares',
+            total: '400€',
+        },
+        {
+            name: 'Bricks',
+            total: '954,27€',
+        },
+        {
+            name: 'Crypto',
+            total: '$1,374.87',
+        },
+    ];
+
+    const liabilities = [
+        {
+            name: 'Visa Premier',
+            total: '-244.87€',
+        },
+        {
+            name: 'Mortgage',
+            total: '-155 772,31€'
+        }
+    ];
     return html`
       <div id="page" class="page" role="main">
         <div class="content-section-header">
             <p>Home</p>
             <div class="content-actions">
                 ${this.isBlurred ? html`
-                <button class="mdc-icon-button" @click=${() => {
-                    const blurredNodes = this.querySelectorAll('.blurry');
-                    blurredNodes.forEach(node => {
-                        node.classList.add('not-blurry');
-                        node.classList.remove('blurry');
-                    });
-                    this.isBlurred = false;
-                }}>
+                <button class="mdc-icon-button" @click=${() => this.showSensitive()}>
                     <div class="mdc-icon-button__ripple"></div>
                     <span class="mdc-icon-button__focus-ring"></span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </button>` : html`
-                    <button class="mdc-icon-button" @click=${() => {
-                        const blurredNodes = this.querySelectorAll('.not-blurry');
-                        blurredNodes.forEach(node => {
-                            node.classList.remove('not-blurry');
-                            node.classList.add('blurry');
-                        });
-                        this.isBlurred = true;
-                    }}>
+                    <button class="mdc-icon-button" @click=${() => this.hideSensitive()}>
                         <div class="mdc-icon-button__ripple"></div>
                         <span class="mdc-icon-button__focus-ring"></span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
@@ -76,47 +109,31 @@ export class HomeController extends Page {
             <section>
                 <h3 class="mdc-typography--subtitle1">Assets</h3>
                 <ul class="mdc-list assets-list mdc-list--two-line">
-                    <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
-                        <span class="mdc-list-item__text">
-                            <span class="mdc-list-item__primary-text">Savings</span>
-                            <span class="mdc-list-item__secondary-text not-blurry">4439€</span>
-                        </span>
-                    </li>
-                    <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
-                        <span class="mdc-list-item__text">
-                            <span class="mdc-list-item__primary-text">Shares</span>
-                            <span class="mdc-list-item__secondary-text not-blurry">400€</span>
-                        </span>
-                    </li>
-                    <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
-                        <span class="mdc-list-item__text">
-                            <span class="mdc-list-item__primary-text">Bricks</span>
-                            <span class="mdc-list-item__secondary-text not-blurry">954,27€</span>
-                        </span>
-                    </li>
-                    <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
-                        <span class="mdc-list-item__text">
-                            <span class="mdc-list-item__primary-text">Crypto</span>
-                            <span class="mdc-list-item__secondary-text not-blurry">$1,374.87</span>
-                        </span>
-                    </li>
+                    ${assets.map(asset => {
+                        return html`
+                        <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
+                            <span class="mdc-list-item__text">
+                                <span class="mdc-list-item__primary-text">${asset.name}</span>
+                                <span class="mdc-list-item__secondary-text not-blurry">${asset.total}</span>
+                            </span>
+                        </li>
+                        `;
+                    })}
                 </ul>
             </section>
             <section>
                 <h3 class="mdc-typography--subtitle1">Liabilities</h3>
                 <ul class="mdc-list liabilities-list mdc-list--two-line">
-                    <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
-                        <span class="mdc-list-item__text">
-                            <span class="mdc-list-item__primary-text">Visa Premier</span>
-                            <span class="mdc-list-item__secondary-text not-blurry">-244.87€</span>
-                        </span>
-                    </li>
-                    <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
-                        <span class="mdc-list-item__text">
-                            <span class="mdc-list-item__primary-text">Mortgage</span>
-                            <span class="mdc-list-item__secondary-text not-blurry">-155 772,31</span>
-                        </span>
-                    </li>
+                    ${liabilities.map(liability => {
+                        return html`
+                        <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
+                            <span class="mdc-list-item__text">
+                                <span class="mdc-list-item__primary-text">${liability.name}</span>
+                                <span class="mdc-list-item__secondary-text not-blurry">${liability.total}</span>
+                            </span>
+                        </li>
+                        `;
+                    })}
                 </ul>
             </section>
         </div>
