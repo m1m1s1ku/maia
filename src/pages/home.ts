@@ -5,12 +5,18 @@ import { customElement } from 'lit/decorators/custom-element.js';
 import { query, state } from 'lit/decorators.js';
 
 import Page from '../core/strategies/Page';
-import { renderRepartitionChart } from '../charts';
+import { renderBreakdown, renderRepartitionChart } from '../charts';
 import { MDCList } from '@material/list';
+import { MDCTabBar } from '@material/tab-bar';
+
+enum ChartTypes {
+    repartition = 'repartition',
+    breakdown = 'breakdown'
+}
 
 @customElement('ui-home')
 export class HomeController extends Page {
-  @query('.repartition-chart-container')
+  @query('.chart-container')
   private chartContainer!: HTMLDivElement;
   @query('.assets-list')
   private assetsList!: HTMLUListElement;  
@@ -22,6 +28,11 @@ export class HomeController extends Page {
 
   @state()
   public data: { totalValueOfMyBricks: number; totalValueOfMyBricksPercent: number; totalDividendsReceived: number; totalDividendsReceivedPercent: number; totalEarnedAmount: number; totalEarnedAmountPercent: number; numberOfPropertiesInvestedIn: number; chart: { name: { en: string; fr: string; }; percent: number; price: number; id: string; }[]; };
+  @query('.mdc-tab-bar')
+  private chartTabBar!: HTMLDivElement;
+
+  @state()
+  private chart: string = ChartTypes.repartition;
 
   constructor() {
     super();
@@ -62,6 +73,7 @@ export class HomeController extends Page {
     renderRepartitionChart(this.chartContainer, this.data);
     MDCList.attachTo(this.assetsList);
     MDCList.attachTo(this.liabilitiesList);
+    MDCTabBar.attachTo(this.chartTabBar);
   }
 
   public render(): void | TemplateResult {
@@ -115,8 +127,44 @@ export class HomeController extends Page {
         <div class="charts">
             <section class="repartition mobile-hidden">
                 <h4>Real estate</h4>
-                <div class="repartition-chart-container"></div>
-                <p>Total value of my bricks: ${this.data.totalValueOfMyBricks}€</p>
+                <div class="mdc-tab-bar" role="tablist">
+                    <div class="mdc-tab-scroller">
+                        <div class="mdc-tab-scroller__scroll-area">
+                            <div class="mdc-tab-scroller__scroll-content">
+                                <button class="mdc-tab ${this.chart === ChartTypes.repartition ? 'mdc-tab--active' : ''}" role="tab" aria-selected=${this.chart === ChartTypes.repartition} tabindex="0" @click=${async() => {
+                                    this.chart = ChartTypes.repartition;
+                                    await this.updateComplete;
+                                    renderRepartitionChart(this.chartContainer, this.data);
+                                }}>
+                                    <span class="mdc-tab__content">
+                                        <span class="mdc-tab__text-label">Repartition</span>
+                                    </span>
+                                    <span class="mdc-tab-indicator ${this.chart === ChartTypes.repartition ? 'mdc-tab-indicator--active' : ''}">
+                                        <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                    </span>
+                                    <span class="mdc-tab__ripple"></span>
+                                    <div class="mdc-tab__focus-ring"></div>
+                                </button>
+                                <button class="mdc-tab ${this.chart === ChartTypes.breakdown ? 'mdc-tab--active' : ''}" role="tab" tabindex="0" aria-selected=${this.chart === ChartTypes.breakdown} @click=${async() => {
+                                    this.chart = ChartTypes.breakdown;
+                                    await this.updateComplete;
+                                    renderBreakdown(this.chartContainer, this.data);
+                                }}>
+                                    <span class="mdc-tab__content">
+                                        <span class="mdc-tab__text-label">Breakdown</span>
+                                    </span>
+                                    <span class="mdc-tab-indicator ${this.chart === ChartTypes.breakdown ? 'mdc-tab-indicator--active' : ''}">
+                                        <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                    </span>
+                                    <span class="mdc-tab__ripple"></span>
+                                    <div class="mdc-tab__focus-ring"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container"></div>
+                <p>Total value: ${this.data.totalValueOfMyBricks}€</p>
                 <p>Capital gain: ${this.data.totalValueOfMyBricksPercent.toFixed(2)}%</p>
             </section>
             <section>

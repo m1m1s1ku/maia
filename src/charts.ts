@@ -8,6 +8,7 @@ export function renderRepartitionChart(container: HTMLElement, data: {
         price: number
     }[];
 }) {
+    container.innerHTML = '';
     const parsed = data.chart.map(item => ({
         id: item.id,
         name: item.name.en,
@@ -64,4 +65,62 @@ export function renderRepartitionChart(container: HTMLElement, data: {
     chart.render();
 
     return chart;
+}
+
+export function renderBreakdown(container: HTMLElement, data:{
+    chart: {
+        id:string
+        name: {en: string, fr: string}
+        percent:number;
+        price: number
+    }[];
+}) {
+    container.innerHTML = '';
+    const parsed = data.chart.map(property => {
+        return {
+            class: 'immo',
+            name: property.name.en.replace('Immeuble', ''),
+            value: property.price * 0.01,
+            percent: property.percent,
+        };
+    });
+      
+    const chart = new Chart({
+        container,
+        autoFit: true,
+        height: 500,
+        padding: [20, 20, 20, 70]
+    });
+    
+    chart.data(parsed);
+    chart.legend(false);
+    chart.tooltip({
+        showMarkers: false
+    });
+    chart.facet('rect', {
+        fields: [],
+
+        eachView: (view, facet) => {
+            view.coordinate().transpose();
+        
+            if (facet && facet.columnIndex === 0) {
+                view.axis('name', {
+                    tickLine: null,
+                    line: null,
+                });
+                view.axis('percent', false);
+            } else {
+                view.axis(false);
+            }
+            const color = '#1890ff';
+            view
+            .interval()
+            .adjust('stack')
+            .position('name*value')
+            .color('name', [color, '#ebedf0'])
+            .size(20);
+            view.interaction('element-active');
+        }
+    });
+    chart.render();
 }
