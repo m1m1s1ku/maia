@@ -18,7 +18,7 @@ export class HomeController extends Page {
   private liabilitiesList!: HTMLUListElement;
 
   @state()
-  private isBlurred = false;
+  private isBlurred = true;
 
   @state()
   public data: { totalValueOfMyBricks: number; totalValueOfMyBricksPercent: number; totalDividendsReceived: number; totalDividendsReceivedPercent: number; totalEarnedAmount: number; totalEarnedAmountPercent: number; numberOfPropertiesInvestedIn: number; chart: { name: { en: string; fr: string; }; percent: number; price: number; id: string; }[]; };
@@ -33,24 +33,6 @@ export class HomeController extends Page {
     renderRepartitionChart(this.chartContainer, this.data);
     MDCList.attachTo(this.assetsList);
     MDCList.attachTo(this.liabilitiesList);
-  }
-
-  private hideSensitive() {
-    const blurredNodes = this.querySelectorAll('.not-blurry');
-    blurredNodes.forEach(node => {
-        node.classList.remove('not-blurry');
-        node.classList.add('blurry');
-    });
-    this.isBlurred = true;
-  }
-
-  private showSensitive() {
-    const blurredNodes = this.querySelectorAll('.blurry');
-    blurredNodes.forEach(node => {
-        node.classList.add('not-blurry');
-        node.classList.remove('blurry');
-    });
-    this.isBlurred = false;
   }
 
   public render(): void | TemplateResult {
@@ -89,12 +71,12 @@ export class HomeController extends Page {
             <p>Home</p>
             <div class="content-actions">
                 ${this.isBlurred ? html`
-                <button class="mdc-icon-button" @click=${() => this.showSensitive()}>
+                <button class="mdc-icon-button" @click=${() => { this.isBlurred = false; }}>
                     <div class="mdc-icon-button__ripple"></div>
                     <span class="mdc-icon-button__focus-ring"></span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </button>` : html`
-                    <button class="mdc-icon-button" @click=${() => this.hideSensitive()}>
+                    <button class="mdc-icon-button" @click=${() => { this.isBlurred = true; }}>
                         <div class="mdc-icon-button__ripple"></div>
                         <span class="mdc-icon-button__focus-ring"></span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
@@ -114,7 +96,7 @@ export class HomeController extends Page {
                         <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                             <span class="mdc-list-item__text">
                                 <span class="mdc-list-item__primary-text">${asset.name}</span>
-                                <span class="mdc-list-item__secondary-text not-blurry">${asset.total}</span>
+                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${asset.total}</span>
                             </span>
                         </li>
                         `;
@@ -129,7 +111,7 @@ export class HomeController extends Page {
                         <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                             <span class="mdc-list-item__text">
                                 <span class="mdc-list-item__primary-text">${liability.name}</span>
-                                <span class="mdc-list-item__secondary-text not-blurry">${liability.total}</span>
+                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${liability.total}</span>
                             </span>
                         </li>
                         `;
