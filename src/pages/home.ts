@@ -7,6 +7,8 @@ import Page from '../core/strategies/Page';
 import type { MDCMenu } from '@material/menu';
 import type { ChartRenderFn } from '../charts';
 
+import { AlignLeftIcon, EyeIcon, EyeOffIcon, PieChartIcon } from '../svg';
+
 enum ChartTypes {
     repartition = 'repartition',
     breakdown = 'breakdown'
@@ -134,12 +136,12 @@ export class HomeController extends Page {
                 <button class="mdc-icon-button" @click=${() => { this.isBlurred = false; }}>
                     <div class="mdc-icon-button__ripple"></div>
                     <span class="mdc-icon-button__focus-ring"></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    ${EyeIcon}
                 </button>` : html`
-                    <button class="mdc-icon-button" @click=${() => { this.isBlurred = true; }}>
-                        <div class="mdc-icon-button__ripple"></div>
-                        <span class="mdc-icon-button__focus-ring"></span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                <button class="mdc-icon-button" @click=${() => { this.isBlurred = true; }}>
+                    <div class="mdc-icon-button__ripple"></div>
+                    <span class="mdc-icon-button__focus-ring"></span>
+                    ${EyeOffIcon}
                 </button>`}
             </div>
         </div>
@@ -171,7 +173,7 @@ export class HomeController extends Page {
                         }}>
                             <div class="mdc-icon-button__ripple"></div>
                             <span class="mdc-icon-button__focus-ring"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                            ${PieChartIcon}
                         </button>
                         <button class="mdc-icon-button ${this.chart === ChartTypes.breakdown ? 'active' : ''}" role="tab" tabindex="0" aria-selected=${this.chart === ChartTypes.breakdown} @click=${async() => {
                             this.chart = ChartTypes.breakdown;
@@ -182,7 +184,7 @@ export class HomeController extends Page {
                         }}>
                             <div class="mdc-icon-button__ripple"></div>
                             <span class="mdc-icon-button__focus-ring"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-left"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+                            ${AlignLeftIcon}
                         </button>
                     </div>
                 </div>
