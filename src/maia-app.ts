@@ -11,6 +11,8 @@ import Root from './core/strategies/Root';
 
 import { auth } from './supabase';
 
+import WolveBan from './assets/wolveban.jpg';
+
 enum Pages {
 	root = '',
 	home = 'home',
@@ -253,7 +255,7 @@ export class MaiaApp extends Root {
 					</div>
 					<div class="messages">
 						<div class="message-box">
-							<img src="https://i.ibb.co/xjPP7tK/76a5a4e1-7aeb-47e9-b55d-60c570c09f52.jpg" alt="profile image">
+							<img src="${WolveBan}" alt="profile image">
 							<div class="message-content">
 								<div class="message-header">
 									<div class="name">WolveBan</div>
