@@ -56,35 +56,6 @@ export default abstract class Root extends LitElement {
 	}
 	
 	protected createRenderRoot(): this { return this; }
-
-	/**
-	 * Toggle dark|light (lightswitch)
-	 *
-	 * @returns
-	 * @memberof Root
-	 */
-	public switchColors(): {
-		day: boolean;
-		night: boolean;
-	}{
-		const day = document.documentElement.classList.contains('day');
-		const night = document.documentElement.classList.contains('night');
-
-		if(day){
-			document.documentElement.classList.remove('day');
-			document.documentElement.classList.add('night');
-		}
-
-		if(night){
-			document.documentElement.classList.remove('night');
-			document.documentElement.classList.add('day');
-		}
-
-		return {
-			day,
-			night
-		};
-	}
 		
 	public async load(route: string | null, user?: User | null): Promise<void> {
 		if(!this._content) {
