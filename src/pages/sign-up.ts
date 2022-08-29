@@ -44,6 +44,8 @@ export class SignUpController extends Page {
             return;
         }
 
+        // Please check your email
+
         // redirect to account
         console.warn('registered', user);
     }
@@ -69,7 +71,7 @@ export class SignUpController extends Page {
         }
 
         // redirect to account
-        console.warn('registered', user);
+        console.warn('logged in', user);
     }
 
     public render(): void | TemplateResult {

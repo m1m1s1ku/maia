@@ -20,7 +20,7 @@ export class HomeController extends Page {
     return html`
       <div id="page" class="page" role="main">
         <div class="content-section-header">
-            <p>Dashboard</p>
+            <p>Home</p>
         </div>
         <div class="charts">
             <section class="repartition">
