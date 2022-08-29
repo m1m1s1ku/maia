@@ -2,8 +2,6 @@ import { html, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
 
-import mimisiku from './mimisiku.png';
-
 import Root from './core/strategies/Root';
 
 import './pages/index';
