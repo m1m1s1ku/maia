@@ -1,19 +1,18 @@
-import { ApiError, Subscription, User } from '@supabase/supabase-js';
+import { Subscription, User } from '@supabase/supabase-js';
 import { html, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { state } from 'lit/decorators.js';
 
-// @ts-expect-error osef
-import MD5 from 'md5.js';
-
 import Root from './core/strategies/Root';
 
 import './pages/index';
+
 import supabase from './supabase';
 
-
+// @ts-expect-error shitty lib, see to replace
+import MD5 from 'md5.js';
 
 @customElement('maia-app')
 export class MaiaApp extends Root {
@@ -24,10 +23,7 @@ export class MaiaApp extends Root {
 	@state()
 	private emailHash = '';
 
-	private _authSubscription: {
-		data: Subscription | null,
-		error: ApiError | null,
-	} | null = null;
+	public authSubscription: Subscription | null = null;
 
 	public get loadables(): string[] {
 		return [];
@@ -38,37 +34,31 @@ export class MaiaApp extends Root {
 			'ui-home',
 			'ui-account',
 			'ui-sign-up',
-			'ui-settings'
+			'ui-settings',
 		];
 	}
 
-	public connectedCallback(): void {
-		super.connectedCallback();
-		this._authSubscription = supabase.auth.onAuthStateChange((change, session) => {
+	constructor() {
+		super();
+		this.authSubscription = supabase.auth.onAuthStateChange((change, session) => {
 			console.warn('authsub', session);
 			switch(change) {
-				case 'USER_DELETED':
-				case 'SIGNED_OUT':
-					this.user = undefined;
-					break;
-				case 'SIGNED_IN':
-				case 'TOKEN_REFRESHED':
-				case 'USER_UPDATED':
-					this.user = session?.user;
-					if(this.user) {
-						this.emailHash = new MD5().update(session?.user?.email?.trim().toLowerCase() ?? '').digest('hex');
-					}
-					break;
-				case 'PASSWORD_RECOVERY':
-					break;
+			  case 'USER_DELETED':
+			  case 'SIGNED_OUT':
+				this.user = undefined;
+				break;
+			  case 'SIGNED_IN':
+			  case 'TOKEN_REFRESHED':
+			  case 'USER_UPDATED':
+				this.user = session?.user;
+				if(this.user) {
+				  this.emailHash = new MD5().update(session?.user?.email?.trim().toLowerCase() ?? '').digest('hex');
+				}
+				break;
+			  case 'PASSWORD_RECOVERY':
+				break;
 			}
-		});
-	}
-
-	public disconnectedCallback(): void {
-		super.disconnectedCallback();
-		this._authSubscription?.data?.unsubscribe();
-		this._authSubscription = null;
+		}).data;
 	}
 
 	private inactiveSidebarLinks(linkElement: HTMLLinkElement, e: Event) {

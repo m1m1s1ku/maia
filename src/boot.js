@@ -5,7 +5,7 @@ async function onDomLoaded(){
 
   document.body.appendChild(loader);
 
-  const [, MaiaConstructor] = await Promise.all([ 
+  const [, MaiaConstructor ] = await Promise.all([ 
     document.fonts.ready, 
     customElements.whenDefined('maia-app'),
   ]);
