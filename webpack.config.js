@@ -50,7 +50,7 @@ const polyfills = [
 
 const commonConfig = merge([
   {
-    entry: './src/elara-app.ts',
+    entry: './src/maia-app.ts',
     output: {
       path: OUTPUT_PATH,
       filename: '[name].[chunkhash:8].js'

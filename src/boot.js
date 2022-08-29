@@ -10,15 +10,15 @@ async function _onDomLoaded(){
   document.body.appendChild(loader);
 
   // Wait for app defined in context
-  await customElements.whenDefined('elara-app');
+  await customElements.whenDefined('maia-app');
 
   const promises = [];
-  const elara = document.querySelector('elara-app');
+  const maia = document.querySelector('maia-app');
   promises.push(document.fonts.ready);
   // Load needed
-  promises.push(...elara.needed);
+  promises.push(...maia.needed);
   // Bootstrap the others
-  promises.push(elara.bootstrap);
+  promises.push(maia.bootstrap);
 
   await Promise.all(promises);
 

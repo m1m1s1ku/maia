@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "author": "Léonard C.",
   "license": "MIT",
-  "homepage": "https://maia.finance",
+  "homepage": "https://maia.kitchen",
   "repository": {
     "type": "git",
     "url": "https://github.com/m1m1s1ku/maia"
   },
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.0.0-beta.82",
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "file-loader": "^6.2.0",
     "lit": "^2.3.1",

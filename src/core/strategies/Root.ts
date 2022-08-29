@@ -1,7 +1,7 @@
 import { LitElement, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { property, query } from 'lit/decorators.js';
-import { load, Router, bootstrap } from '../elara';
+import { load, Router, bootstrap } from '../maia';
 
 /**
  * Abtract <*-app> component strategy
@@ -30,7 +30,6 @@ export default abstract class Root extends LitElement {
 	/**
 	 * Inside JS dark-mode handling
 	 *
-	 * Could be used for SVG animations, example : (https://github.com/Ghostfly/cheno-website/blob/master/src/elara-app.ts#L109)
 	 * @private
 	 * @memberof Root
 	 */

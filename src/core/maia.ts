@@ -1,4 +1,4 @@
-import { ElaraApp } from '../elara-app';
+import { MaiaApp } from '../maia-app';
 import { pulseWith } from './animations';
 import Page from './strategies/Page';
 
@@ -7,7 +7,7 @@ export interface UpdatableElement extends HTMLElement {
 }
 export interface LoadableElement extends UpdatableElement { loaded: boolean }
 
-export function Elara(): ElaraApp | null { return document.querySelector('elara-app'); }
+export function Maia(): MaiaApp | null { return document.querySelector('maia-app'); }
 
 export function bootstrap(loadables: string[], host: HTMLElement): Promise<unknown[]> {
     const loadPromises = [];
@@ -68,13 +68,13 @@ export async function load(route: string | null, content: HTMLElement): Promise<
     });
 }
 
-type ElaraRouter = {
+type MaiaRouter = {
     redirect: (url: string, target?: string) => boolean;
     navigate: (route: string) => boolean;
     hashChange(event: HashChangeEvent): string | null;
 };
 
-export function Router(): ElaraRouter {
+export function Router(): MaiaRouter {
     return {
         redirect: (url: string, target = '_blank'): boolean => {
             return !!window.open(url, target);
@@ -131,7 +131,7 @@ export function toDataURL(src: string): Promise<string> {
        setTimeout(() => {
            if(image.complete === false){
                // abort image loading if exceeds 500ms : https://stackoverflow.com/questions/5278304/how-to-cancel-an-image-from-loading
-               console.warn('Elara ::: Image loading was too slow, rejecting');
+               console.warn('Maia ::: Image loading was too slow, rejecting');
                image.src = '';
                reject();
            }

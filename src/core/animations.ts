@@ -1,9 +1,9 @@
-interface ElaraAnimation {
+interface MaiaAnimation {
     effect: PropertyIndexedKeyframes;
     options: KeyframeAnimationOptions;
 }
 
-export function pulseWith(duration: number): ElaraAnimation {
+export function pulseWith(duration: number): MaiaAnimation {
     return {
         effect: {
             opacity: [.5, 1],
@@ -15,7 +15,7 @@ export function pulseWith(duration: number): ElaraAnimation {
     };
 }
 
-export function fadeWith(duration: number, enter: boolean): ElaraAnimation {
+export function fadeWith(duration: number, enter: boolean): MaiaAnimation {
     return {
         effect: {
             opacity: enter ? [0, 1] : [1, 0]
