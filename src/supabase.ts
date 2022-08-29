@@ -5,3 +5,5 @@ const supabase = createClient('https://ljagkfxmyqdwelyiskwo.supabase.co', 'eyJhb
 export default supabase;
 
 export const auth = supabase.auth;
+export const storage = supabase.storage;
+export const functions = supabase.functions;

@@ -1,7 +1,5 @@
 import { html, TemplateResult } from 'lit-html';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { query, state } from 'lit/decorators.js';
 
 import Page from '../core/strategies/Page';

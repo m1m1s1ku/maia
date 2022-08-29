@@ -1,5 +1,4 @@
 import { html, TemplateResult } from 'lit-html';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
 
 import Page from '../core/strategies/Page';
@@ -32,22 +31,8 @@ export class AccountController extends Page {
         <section class="user-info">
             <p>Email: ${user?.email}</p>
             <p>Created at: ${prettyDate(user?.created_at)}</p>
-            <!--<p>Confirmation sent at: ${prettyDate(user?.confirmation_sent_at)}</p>
-            <p>Confirmed at: ${prettyDate(user?.confirmed_at)}</p>
-            <p>Updated at: ${prettyDate(user?.updated_at)}</p> -->
             <p>Last sign in: ${prettyDate(user?.last_sign_in_at)}</p>
         </section>
-        <!-- <section class="identities">
-          ${user?.identities ? html`
-          ${user.identities.map(identity => {
-            return html`
-            <div class="identity-provider">
-            <p>Provider: ${identity.provider.charAt(0).toUpperCase() + identity.provider.slice(1)}</p>
-            ${identity.identity_data ? html`<code>${JSON.stringify(identity.identity_data, null, 2)}</code>` : html``}
-            </div>
-            `;
-          })}` : html``}
-        </section>-->
       </div>
     `;
   }

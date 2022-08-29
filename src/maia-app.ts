@@ -2,9 +2,7 @@ import type { Subscription, User } from '@supabase/supabase-js';
 import { Md5 } from 'ts-md5';
 
 import { html, TemplateResult } from 'lit';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { state } from 'lit/decorators.js';
 
 import Root from './core/strategies/Root';

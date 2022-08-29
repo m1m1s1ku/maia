@@ -1,5 +1,4 @@
 import { html, TemplateResult } from 'lit-html';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
 
 import Page from '../core/strategies/Page';
