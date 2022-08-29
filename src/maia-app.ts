@@ -111,17 +111,17 @@ export class MaiaApp extends Root {
 			case Pages.signUp:
 			case Pages.settings: {
 				if(!user) {
-					return await this.load('sign-up', null);
+					return await this.load(Pages.signUp, null);
 				}
 
 				if(path && customElements.get('ui-' + path)) {
-					return await this.load(path, user);
+					return await this.load(path === Pages.signUp ? Pages.home : path, user);
 				}
 
-				return await this.load('home', user);
+				return await this.load(Pages.home, user);
 			}
 			default:
-				return await this.load('sign-up', null);
+				return await this.load(Pages.signUp, null);
 		}
 	}
 
