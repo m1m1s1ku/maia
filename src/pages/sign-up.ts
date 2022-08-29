@@ -43,7 +43,31 @@ export class SignUpController extends Page {
             // Show toast
             return;
         }
-        
+
+        // redirect to account
+        console.warn('registered', user);
+    }
+
+    private async signInWithEmail() {
+        const email = this.emailField.querySelector('input')?.value;
+        const password = this.passwordField.querySelector('input')?.value;
+        if(!email || !password) {
+            // Show toast
+            return;
+        }
+
+        const { user, error } = await supabase.auth.signIn({
+            email,
+            password,
+        });
+        this.user = user;
+        this.error = error;
+
+        if(error) {
+            // Show toast
+            return;
+        }
+
         // redirect to account
         console.warn('registered', user);
     }
@@ -67,10 +91,16 @@ export class SignUpController extends Page {
                     <span class="mdc-floating-label" id="my-label">Password</span>
                     <span class="mdc-line-ripple"></span>
                 </label>
-                <button class="mdc-button mdc-button--raised" @click=${() => this.signUpWithEmail()}>
-                    <span class="mdc-button__ripple"></span>
-                    Sign up
-                </button>
+                <div class="login-actions">
+                    <button class="mdc-button mdc-button--raised" @click=${() => this.signUpWithEmail()}>
+                        <span class="mdc-button__ripple"></span>
+                        Sign up
+                    </button>
+                    <button class="mdc-button mdc-button--raised" @click=${() => this.signInWithEmail()}>
+                        <span class="mdc-button__ripple"></span>
+                        Sign in
+                    </button>
+                </div>
             </div>
         </div>
         `;

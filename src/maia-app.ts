@@ -7,6 +7,7 @@ import mimisiku from './mimisiku.png';
 import Root from './core/strategies/Root';
 
 import './pages/index';
+import supabase from './supabase';
 
 @customElement('maia-app')
 export class MaiaApp extends Root {
@@ -25,48 +26,53 @@ export class MaiaApp extends Root {
 		];
 	}
 
+	public firstUpdated(): void {
+		supabase.auth.onAuthStateChange((change, session) => {
+			console.warn('supabase change', change, session);
+		});
+	}
+
 	public render(): TemplateResult {
 		return html`
 <div class="maia">
 	<div class="app-container">
 		<div class="app-header">
-			<div class="app-header-left">
-				<span class="app-icon">
-					<a href="home">
-						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-							viewBox="0 0 103.59 76.05" style="enable-background:new 0 0 103.59 76.05;" xml:space="preserve">
-							<style type="text/css">.glove {fill:#8A87A3;}</style>
-							<path class="glove" d="M27.52,73.61C18.62,69.62,10.44,63.59,0,63.92c1.98-5.84,3.95-11.69,5.94-17.53c3.19-9.34,6.66-18.6,9.49-28.04
-								c1.99-6.66,6.27-11.04,12.73-9.21c8.33,2.36,15.13,7.25,10.43,18.12c-0.83,1.91,0.18,4.61,0.33,6.95c1.09-1.01,2.17-2.05,3.29-2.97
-								c1.39-1.14,2.02-1.78,4.1-2.79c2.66,6.58,2.62,7.68,0.83,10.24c-7.64,10.94-15.5,21.64-18.66,34.91
-								C28.16,73.61,27.84,73.61,27.52,73.61z"/>
-							<path class="glove" d="M76.07,64.89c8.9-3.99,17.08-10.02,27.52-9.69c-1.98-5.84-3.95-11.69-5.94-17.53
-								c-3.19-9.34-6.66-18.6-9.49-28.04c-1.99-6.66-6.27-11.04-12.73-9.21C67.1,2.78,60.3,7.67,65,18.54c0.83,1.91-0.18,4.61-0.33,6.95
-								c-1.09-1.01-2.05-2.22-3.29-2.97c-1.97-1.19-4.12-2.06-6.2-3.07c0.35,3.56-0.52,7.96,1.27,10.52c7.64,10.94,15.5,21.64,18.66,34.91
-								C75.43,64.89,75.75,64.89,76.07,64.89z"/>
+				<div class="app-header-left">
+					<span class="app-icon">
+						<a href="home">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								viewBox="0 0 103.59 76.05" style="enable-background:new 0 0 103.59 76.05;" xml:space="preserve">
+								<style type="text/css">.glove {fill:#8A87A3;}</style>
+								<path class="glove" d="M27.52,73.61C18.62,69.62,10.44,63.59,0,63.92c1.98-5.84,3.95-11.69,5.94-17.53c3.19-9.34,6.66-18.6,9.49-28.04
+									c1.99-6.66,6.27-11.04,12.73-9.21c8.33,2.36,15.13,7.25,10.43,18.12c-0.83,1.91,0.18,4.61,0.33,6.95c1.09-1.01,2.17-2.05,3.29-2.97
+									c1.39-1.14,2.02-1.78,4.1-2.79c2.66,6.58,2.62,7.68,0.83,10.24c-7.64,10.94-15.5,21.64-18.66,34.91
+									C28.16,73.61,27.84,73.61,27.52,73.61z"/>
+								<path class="glove" d="M76.07,64.89c8.9-3.99,17.08-10.02,27.52-9.69c-1.98-5.84-3.95-11.69-5.94-17.53
+									c-3.19-9.34-6.66-18.6-9.49-28.04c-1.99-6.66-6.27-11.04-12.73-9.21C67.1,2.78,60.3,7.67,65,18.54c0.83,1.91-0.18,4.61-0.33,6.95
+									c-1.09-1.01-2.05-2.22-3.29-2.97c-1.97-1.19-4.12-2.06-6.2-3.07c0.35,3.56-0.52,7.96,1.27,10.52c7.64,10.94,15.5,21.64,18.66,34.91
+									C75.43,64.89,75.75,64.89,76.07,64.89z"/>
+							</svg>
+						</a>
+					</span>
+					<p class="app-name"><a href="home">Maia.</a></p>
+					<div class="search-wrapper">
+						<input class="search-input" type="text" placeholder="Search.">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
+						<defs></defs>
+						<circle cx="11" cy="11" r="8"></circle>
+						<path d="M21 21l-4.35-4.35"></path>
 						</svg>
-					</a>
-				</span>
-				<p class="app-name"><a href="home">Maia.</a></p>
-				<div class="search-wrapper">
-					<input class="search-input" type="text" placeholder="Search.">
-					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
-					<defs></defs>
-					<circle cx="11" cy="11" r="8"></circle>
-					<path d="M21 21l-4.35-4.35"></path>
-					</svg>
+					</div>
 				</div>
-			</div>
-			<div class="app-header-right">
-				<button class="notification-btn">
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
-					<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-					<path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
-				</button>
-				<button class="profile-btn" >
-					<img src="${mimisiku}" />
-					<span>Léonard C.</span>
-				</button>
+				<div class="app-header-right">
+					<button class="notification-btn">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
+						<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+						<path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
+					</button>
+					<button class="profile-btn" @click=${() => {
+						this.load('sign-up');
+					}}>Connect</button>
 				</div>
 				<button class="messages-btn">
 					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
@@ -94,9 +100,7 @@ export class MaiaApp extends Root {
 						</svg>
 					</a>
 				</div>
-				<div class="content-section">
-					<ui-sign-up></ui-sign-up>
-				</div>
+				<div class="content-section" id="content"></div>
 				<div class="messages-section">
 					<button class="messages-close">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">

@@ -3,6 +3,7 @@ import { html, TemplateResult } from 'lit-html';
 import { customElement } from 'lit/decorators/custom-element.js';
 
 import Page from '../core/strategies/Page';
+import supabase from '../supabase';
 
 @customElement('ui-account')
 export class AccountController extends Page {
@@ -11,6 +12,7 @@ export class AccountController extends Page {
       <div id="page" class="page" role="main">
         <div class="content-section-header">
             <p>Account</p>
+            ${supabase.auth.user()?.email}
         </div>
       </div>
     `;
