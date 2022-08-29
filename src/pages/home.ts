@@ -19,7 +19,7 @@ export class HomeController extends Page {
   public render(): void | TemplateResult {
     return html`
       <div id="page" class="page" role="main">
-        <div class="projects-section-header">
+        <div class="content-section-header">
             <p>Dashboard</p>
         </div>
         <div class="charts">

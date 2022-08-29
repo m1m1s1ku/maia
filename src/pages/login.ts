@@ -9,7 +9,7 @@ export class LoginController extends Page {
   public render(): void | TemplateResult {
     return html`
       <div id="page" class="page" role="main">
-        <div class="projects-section-header">
+        <div class="content-section-header">
             <p>Login</p>
         </div>
       </div>

@@ -89,7 +89,7 @@ export class MaiaApp extends Root {
 						</svg>
 					</a>
 				</div>
-				<div class="projects-section">
+				<div class="content-section">
 					<ui-home></ui-home>
 				</div>
 				<div class="messages-section">
@@ -99,7 +99,7 @@ export class MaiaApp extends Root {
 						<line x1="15" y1="9" x2="9" y2="15" />
 						<line x1="9" y1="9" x2="15" y2="15" /></svg>
 					</button>
-					<div class="projects-section-header">
+					<div class="content-section-header">
 						<p>Messages</p>
 					</div>
 					<div class="messages">
@@ -107,21 +107,10 @@ export class MaiaApp extends Root {
 							<img src="https://i.ibb.co/xjPP7tK/76a5a4e1-7aeb-47e9-b55d-60c570c09f52.jpg" alt="profile image">
 							<div class="message-content">
 								<div class="message-header">
-								<div class="name">WolveBan</div>
-								<div class="star-checkbox">
-									<input type="checkbox" id="star-1">
-									<label for="star-1">
-									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
-										<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-									</label>
+									<div class="name">WolveBan</div>
 								</div>
-								</div>
-								<p class="message-line">
-								[REDACTED]
-								</p>
-								<p class="message-line time">
-								Aug, 29
-								</p>
+								<p class="message-line">[REDACTED]</p>
+								<p class="message-line time">Aug, 29</p>
 							</div>
 						</div>
 					</div>
