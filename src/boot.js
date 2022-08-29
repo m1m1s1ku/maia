@@ -55,11 +55,9 @@ async function _onDomLoaded(){
   const fadeOut = loader.animate({
     opacity: [1, 0],
   }, 1000);
-  await fadeOut.finished;
-
-  setTimeout(() => {
+  await fadeOut.finished.then(() => {
     loader.parentElement.removeChild(loader);
-  }, 1500);
+  });
 }
 
 (() => {
