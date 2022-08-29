@@ -14,15 +14,15 @@
     "@material/textfield": "^14.0.0",
     "@supabase/supabase-js": "^1.35.6",
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "crypto-js": "^4.1.1",
+    "buffer": "^6.0.3",
     "file-loader": "^6.2.0",
     "lit": "^2.3.1",
+    "md5.js": "^1.3.5",
     "url-loader": "^4.1.1",
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
-    "@types/crypto-js": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "clean-webpack-plugin": "^4.0.0",

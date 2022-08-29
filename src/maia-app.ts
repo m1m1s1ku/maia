@@ -5,7 +5,8 @@ import { customElement } from 'lit/decorators/custom-element.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { state } from 'lit/decorators.js';
 
-import { MD5 } from 'crypto-js';
+// @ts-expect-error osef
+import MD5 from 'md5.js';
 
 import Root from './core/strategies/Root';
 
@@ -56,7 +57,7 @@ export class MaiaApp extends Root {
 
 		this.user = supabase.auth.user();
 		if(this.user) {
-			this.emailHash = MD5(this.user.email?.trim().toLowerCase() ?? '').toString();
+			this.emailHash = new MD5().update(this.user.email?.trim().toLowerCase() ?? '').digest('hex');
 		}
 		this.requestUpdate();
 	}

@@ -3,6 +3,7 @@
 
 const { resolve, join } = require('path');
 const {merge} = require('webpack-merge');
+const { ProvidePlugin } = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
@@ -56,7 +57,10 @@ const commonConfig = merge([
       filename: '[name].[chunkhash:8].js'
     },
     resolve: {
-      extensions: [ '.ts', '.js', '.css' ]
+      extensions: [ '.ts', '.js', '.css' ],
+      fallback: { 
+        'buffer': require.resolve('buffer'), 
+      },
     },
     module: {
       rules: [
@@ -96,7 +100,10 @@ const developmentConfig = merge([
       new HtmlWebpackPlugin({
         template: INDEX_TEMPLATE
       }),
-      new ESLintPlugin()
+      new ESLintPlugin(),
+      new ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+      })
     ],
 
     devServer: {
@@ -122,6 +129,9 @@ const productionConfig = merge([
           minifyCSS: true,
           minifyJS: true
         }
+      }),
+      new ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
       })
     ]
   }
