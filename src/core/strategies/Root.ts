@@ -1,3 +1,4 @@
+import { User } from '@supabase/supabase-js';
 import { LitElement, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { property, query } from 'lit/decorators.js';
@@ -94,28 +95,17 @@ export default abstract class Root extends LitElement {
 			night
 		};
 	}
-
-	public firstUpdated(): void {
-		const hashEvent = new HashChangeEvent('hashchange', {
-			newURL: location.hash,
-			oldURL: undefined
-		});
-
-		this._onHashChange(hashEvent);
-	}
-
-	protected async _onHashChange(event: HashChangeEvent): Promise<void> {
-		const route = this.router.hashChange(event);
-		this.route = route;
-
-		await this.load(route);
-	}
 		
-	public async load(route: string | null): Promise<void> {
+	public async load(route: string | null, user?: User | null): Promise<void> {
+		if(!this._content) {
+			this.connectedCallback();
+			await this.updateComplete;
+		}
+		
 		if(this._content) {
 			this._content.scrollTop = 0;
 		}
-		
-		return load(route, this._content);
+
+		return load(route, this._content, user);
 	}
 }

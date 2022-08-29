@@ -13,8 +13,10 @@ async function onDomLoaded(){
 
   await Promise.all([
     maia.bootstrap,
-    ...maia.needed.map(needed => customElements.whenDefined(needed))
+    ...maia.needed.map(needed => customElements.whenDefined(needed)),
   ]);
+
+  await maia.routing;
 
   document.body.appendChild(maia);
   const fadeOut = loader.animate({

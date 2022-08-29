@@ -24,6 +24,7 @@ export class MaiaApp extends Root {
 	private emailHash = '';
 
 	public authSubscription: Subscription | null = null;
+	public routing: Promise<void>;
 
 	public get loadables(): string[] {
 		return [];
@@ -38,6 +39,17 @@ export class MaiaApp extends Root {
 		];
 	}
 
+	private prepareUser(user: User | null | undefined){
+		if(!user) {
+			return;
+		}
+
+		this.emailHash = new MD5().update(user?.email?.trim().toLowerCase() ?? '').digest('hex');
+		this.user = user;
+
+		return user;
+	}
+
 	constructor(path: string) {
 		super();
 		this.authSubscription = supabase.auth.onAuthStateChange((change, session) => {
@@ -50,17 +62,16 @@ export class MaiaApp extends Root {
 			  case 'SIGNED_IN':
 			  case 'TOKEN_REFRESHED':
 			  case 'USER_UPDATED':
-				this.user = session?.user;
-				if(this.user) {
-				  this.emailHash = new MD5().update(session?.user?.email?.trim().toLowerCase() ?? '').digest('hex');
-				}
+				this.prepareUser(session?.user);
+				this.load('home');
 				break;
 			  case 'PASSWORD_RECOVERY':
 				break;
 			}
 		}).data;
 
-		this.updateComplete.then(() => {
+		this.routing = new Promise((resolve) => {
+			const user = this.prepareUser(supabase.auth.user());
 			path = path ? path.slice(1) : path;
 
 			switch(path) {
@@ -71,20 +82,19 @@ export class MaiaApp extends Root {
 				case 'sign-up':
 				case 'settings':
 				default: {
-					if(this.user) {
+					console.warn(path, user);
+					if(user) {
 						if(path) {
 							const hasComponent = customElements.get('ui-' + path);
 							if(hasComponent){
-								this.load(path);
+								return this.load(path, user).then(resolve);
 							}
-							return;
 						}
 
-						this.load('home');
-						return;
+						return this.load('home', user).then(resolve);
 					}
 
-					this.load('sign-up');
+					return this.load('sign-up', null).then(resolve);
 				}
 			}
 		});
@@ -109,7 +119,7 @@ export class MaiaApp extends Root {
 						<a href="home" @click=${(e:Event) => {
 							e.preventDefault();
 							if(this.user) {
-								this.load('home');
+								this.load('home', this.user);
 							}
 						}}>
 							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -129,7 +139,7 @@ export class MaiaApp extends Root {
 					<p class="app-name"><a href="home" @click=${(e:Event) => {
 						e.preventDefault();
 						if(this.user) {
-							this.load('home');
+							this.load('home', this.user);
 						}
 					}}>Maia.</a></p>
 					<div class="search-wrapper">
@@ -152,9 +162,9 @@ export class MaiaApp extends Root {
                 	</button>
 					<button class="profile-btn" @click=${() => {
 						if(this.user) {
-							this.load('account');
+							this.load('account', this.user);
 						} else {
-							this.load('sign-up');
+							this.load('sign-up', this.user);
 						}
 					}}>
 					${this.user ? html`
@@ -165,7 +175,7 @@ export class MaiaApp extends Root {
 							console.warn('error while logout', error);
 						}
 						this.user = null;
-						this.load('sign-up');
+						this.load('sign-up', this.user);
 					}}>
 						<div class="mdc-icon-button__ripple"></div>
 						<span class="mdc-icon-button__focus-ring"></span>
@@ -196,7 +206,7 @@ export class MaiaApp extends Root {
 						}
 						const link = e.currentTarget as HTMLLinkElement;
 						this.inactiveSidebarLinks(link, e);
-						this.load('home');
+						this.load('home', this.user);
 					}}>
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
 							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -210,7 +220,7 @@ export class MaiaApp extends Root {
 						}
 						const link = e.currentTarget as HTMLLinkElement;
 						this.inactiveSidebarLinks(link, e);
-						this.load('settings');
+						this.load('settings', this.user);
 					}}>
 						<svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" viewBox="0 0 24 24">
 							<circle cx="12" cy="12" r="3" />

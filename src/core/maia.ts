@@ -1,3 +1,4 @@
+import { User } from '@supabase/supabase-js';
 import { MaiaApp } from '../maia-app';
 import { pulseWith } from './animations';
 
@@ -29,18 +30,25 @@ export function bootstrap(loadables: string[], host: HTMLElement): Promise<unkno
     return Promise.all(loadPromises);
 }
 
-export async function load(route: string | null, content: HTMLElement): Promise<void> {
-    if(!route){
-        return;
+export async function load(route: string | null, content: HTMLElement | null, user?: User | null): Promise<void> {
+    if(!content){
+        throw new Error('Fatal, LitElement not ready.');
+    }
+
+    if(user) {
+        route = route ?? 'home';
+    } else {
+        route = 'sign-up';
     }
 
     const defaultTitle = 'Maia.';
     const componentName = 'ui-' + route;
 
-    const Component = customElements.get(componentName);
+    const Component = customElements.get(componentName) ?? customElements.get('ui-sign-up');
+
     content.classList.remove('full-width');
 
-    const loaded = Component ? new Component() : null;
+    const loaded = Component ? new Component() : null; 
 
     document.title = defaultTitle;
 
