@@ -7,7 +7,6 @@ import { query, state } from 'lit/decorators.js';
 import Page from '../core/strategies/Page';
 import { renderRepartitionChart } from '../charts';
 import { MDCList } from '@material/list';
-import { MDCRipple } from '@material/ripple';
 
 @customElement('ui-home')
 export class HomeController extends Page {
@@ -17,11 +16,6 @@ export class HomeController extends Page {
   private assetsList!: HTMLUListElement;  
   @query('.liabilities-list')
   private liabilitiesList!: HTMLUListElement;
-
-  @query('#showSensitive .mdc-ripple-surface')
-  private showSensitive!: HTMLDivElement;
-  @query('#hideSensitive .mdc-ripple-surface')
-  private hideSensitive!: HTMLDivElement;
 
   @state()
   private isBlurred = false;
@@ -39,8 +33,6 @@ export class HomeController extends Page {
     renderRepartitionChart(this.chartContainer, this.data);
     MDCList.attachTo(this.assetsList);
     MDCList.attachTo(this.liabilitiesList);
-    MDCRipple.attachTo(this.showSensitive);
-    MDCRipple.attachTo(this.hideSensitive);
   }
 
   public render(): void | TemplateResult {
