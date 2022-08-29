@@ -51,12 +51,12 @@ export default abstract class Root extends LitElement {
 	public connectedCallback(): void {
 		super.connectedCallback();
 
-		if(window.matchMedia(this._queries.DARK).matches){ document.body.classList.add('night'); }
-		if(window.matchMedia(this._queries.LIGHT).matches){ document.body.classList.add('day'); }
+		if(window.matchMedia(this._queries.DARK).matches){ document.documentElement.classList.add('night'); }
+		if(window.matchMedia(this._queries.LIGHT).matches){ document.documentElement.classList.add('day'); }
 	}
 	
 	protected createRenderRoot(): this { return this; }
-		
+
 	public async load(route: string | null, user?: User | null): Promise<void> {
 		if(!this._content) {
 			// Workaround, boot will start routing asap (onDomLoaded)

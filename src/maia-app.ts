@@ -122,6 +122,7 @@ export class MaiaApp extends Root {
 			});
 		}).then(() => {
 			// At this point of time, we should be able to do anything with the App.
+			// @todo : fix darkmode toggle
 		});
 	}
 
