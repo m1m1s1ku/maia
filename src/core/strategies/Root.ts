@@ -88,17 +88,17 @@ export default abstract class Root extends LitElement {
 		day: boolean;
 		night: boolean;
 	}{
-		const day = document.body.classList.contains('day');
-		const night = document.body.classList.contains('night');
+		const day = document.documentElement.classList.contains('day');
+		const night = document.documentElement.classList.contains('night');
 
 		if(day){
-			document.body.classList.remove('day');
-			document.body.classList.add('night');
+			document.documentElement.classList.remove('day');
+			document.documentElement.classList.add('night');
 		}
 
 		if(night){
-			document.body.classList.remove('night');
-			document.body.classList.add('day');
+			document.documentElement.classList.remove('night');
+			document.documentElement.classList.add('day');
 		}
 
 		return {
@@ -124,7 +124,9 @@ export default abstract class Root extends LitElement {
 	}
 		
 	public async load(route: string | null): Promise<void> {
-		this._content.scrollTop = 0;
+		if(this._content) {
+			this._content.scrollTop = 0;
+		}
 		
 		return load(route, this._content);
 	}
