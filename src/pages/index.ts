@@ -1,4 +1,4 @@
 import './home';
-import './login';
+import './sign-up';
 import './account';
 import './settings';
