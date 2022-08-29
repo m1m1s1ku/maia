@@ -20,15 +20,15 @@ async function _onDomLoaded(){
   await Promise.all([
     maia.bootstrap,
     ...maia.needed.map(needed => customElements.whenDefined(needed))
-  ]).then(() => {
-    document.body.appendChild(maia);
-    const fadeOut = loader.animate({
-      opacity: [1, 0],
-    }, 1000);
-    return fadeOut.finished.then(() => {
-      loader.parentElement.removeChild(loader);
-    });
-  });
+  ]);
+
+  document.body.appendChild(maia);
+  const fadeOut = loader.animate({
+    opacity: [1, 0],
+  }, 1000);
+
+  await fadeOut.finished;
+  loader.parentElement.removeChild(loader);
 }
 
 (() => {
