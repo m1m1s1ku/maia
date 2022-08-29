@@ -1,6 +1,5 @@
 import { User } from '@supabase/supabase-js';
 import { LitElement, TemplateResult } from 'lit';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { property, query } from 'lit/decorators.js';
 import { load, bootstrap } from '../maia';
 
@@ -89,6 +88,8 @@ export default abstract class Root extends LitElement {
 		
 	public async load(route: string | null, user?: User | null): Promise<void> {
 		if(!this._content) {
+			// Workaround, boot will start routing asap (onDomLoaded)
+			// enforce LitElement update to happen before loading.
 			this.connectedCallback();
 			await this.updateComplete;
 		}
