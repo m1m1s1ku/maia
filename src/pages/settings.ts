@@ -48,14 +48,14 @@ export class SettingsController extends Page {
                 <h4>Binance</h4>
                 <label class="email-field mdc-text-field mdc-text-field--filled">
                     <span class="mdc-text-field__ripple"></span>
-                    <input type="text" class="mdc-text-field__input" aria-labelledby="mpp-email">
-                    <span class="mdc-floating-label" id="bricks-email">Email</span>
+                    <input type="text" class="mdc-text-field__input" aria-labelledby="binance-apikey">
+                    <span class="mdc-floating-label" id="binance-apikey">APIKey</span>
                     <span class="mdc-line-ripple"></span>
                 </label>
                 <label class="email-field mdc-text-field mdc-text-field--filled">
                     <span class="mdc-text-field__ripple"></span>
-                    <input type="password" class="mdc-text-field__input" aria-labelledby="mpp-password">
-                    <span class="mdc-floating-label" id="bricks-password">Password</span>
+                    <input type="password" class="mdc-text-field__input" aria-labelledby="binance-secret">
+                    <span class="mdc-floating-label" id="binance-secret">Secret</span>
                     <span class="mdc-line-ripple"></span>
                 </label>
             </section>
