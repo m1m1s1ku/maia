@@ -14,14 +14,14 @@ const ENV = process.argv.find(arg => arg.includes('production'))
 const OUTPUT_PATH = ENV === 'production' ? resolve('dist') : resolve('src');
 const INDEX_TEMPLATE = resolve('./src/index.html');
 
-const assetspath = './src/assets';
+const assetspath = join(__dirname, '/src/assets/*');
 const webcomponentsjs = './node_modules/@webcomponents/webcomponentsjs';
 const webanimationsjs = './node_modules/web-animations-js';
 
 const assets = [
   {
     from: resolve(assetspath),
-    to: join(OUTPUT_PATH, 'assets')
+    to: join(OUTPUT_PATH, 'assets', '[name][ext]')
   },
 ];
 
@@ -95,7 +95,7 @@ const commonConfig = merge([
 const developmentConfig = merge([
   {
     plugins: [
-      new CopyWebpackPlugin({patterns:polyfills}),
+      new CopyWebpackPlugin({patterns:[...polyfills, ...assets]}),
       new HtmlWebpackPlugin({
         template: INDEX_TEMPLATE
       }),
