@@ -10,7 +10,18 @@ import Root from './core/strategies/Root';
 import { auth } from './supabase';
 
 import WolveBan from './assets/wolveban.jpg';
-import { CloseCircle, HomeIcon, LoginIcon, LogoutIcon, MaiaLogo, MessagesCircle, NotificationsIcon, SearchIcon, SettingsIcon } from './svg';
+
+import {
+	MaiaLogo, 
+	CloseCircle, 
+	HomeIcon, 
+	LoginIcon, 
+	LogoutIcon, 
+	MessagesCircle, 
+	NotificationsIcon, 
+	SearchIcon, 
+	SettingsIcon 
+} from './svg';
 
 enum Pages {
 	root = '',
