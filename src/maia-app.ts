@@ -109,22 +109,19 @@ export class MaiaApp extends Root {
 			case Pages.home:
 			case Pages.account:
 			case Pages.signUp:
-			case Pages.settings:
-			default: {
-				console.warn(path, user);
-				if(user) {
-					if(path) {
-						const hasComponent = customElements.get('ui-' + path);
-						if(hasComponent){
-							return await this.load(path, user);
-						}
-					}
-
-					return await this.load('home', user);
+			case Pages.settings: {
+				if(!user) {
+					return await this.load('sign-up', null);
 				}
 
-				return await this.load('sign-up', null);
+				if(path && customElements.get('ui-' + path)) {
+					return await this.load(path, user);
+				}
+
+				return await this.load('home', user);
 			}
+			default:
+				return await this.load('sign-up', null);
 		}
 	}
 
