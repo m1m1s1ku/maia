@@ -1,6 +1,5 @@
 import { MaiaApp } from '../maia-app';
 import { pulseWith } from './animations';
-import Page from './strategies/Page';
 
 export interface UpdatableElement extends HTMLElement {
     requestUpdate(name?: PropertyKey, oldValue?: unknown): Promise<unknown>;
@@ -45,25 +44,26 @@ export async function load(route: string | null, content: HTMLElement): Promise<
 
     document.title = defaultTitle;
 
-    if(loaded){
-        // content.innerHTML = '';
-        if(content.querySelector(componentName)){
-            return;
-        }
-        content.appendChild(loaded);
-    }
-
     window.scrollTo(0,0);
 
-    const handle = window.requestAnimationFrame(() => {
-        if(!loaded) { return; }
+    const removeChilds = (parent: HTMLElement) => {
+        while (parent.lastChild) {
+            parent.removeChild(parent.lastChild);
+        }
+    };
 
+    const handle = window.requestAnimationFrame(() => {
+        if(!loaded){
+            return;
+        }
+
+        removeChilds(content);
+        content.appendChild(loaded);
         const pageContent = loaded.querySelector('div');
         if(!pageContent){
             cancelAnimationFrame(handle);
             return;
         }
-
         const animation = pulseWith(300);			
         pageContent.animate(animation.effect, animation.options);
     });
