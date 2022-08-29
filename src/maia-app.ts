@@ -12,6 +12,8 @@ import Root from './core/strategies/Root';
 import './pages/index';
 import supabase from './supabase';
 
+
+
 @customElement('maia-app')
 export class MaiaApp extends Root {
 	public static readonly is: string = 'maia-app';
@@ -107,6 +109,18 @@ export class MaiaApp extends Root {
 					${this.user ? html`
 					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
 					<span>${this.user.email}</span>
+					<button class="logout-btn" @click=${async () => {
+						const { error } = await supabase.auth.signOut();
+						if(error) {
+							console.warn('error while logout', error);
+						}
+						this.user = null;
+					}}>
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
+							<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+							<polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+						</svg>
+					</button>
 					` : html`Connect`}
 					</button>
 				</div>
@@ -136,7 +150,14 @@ export class MaiaApp extends Root {
 						</svg>
 					</a>
 				</div>
-				<div class="content-section" id="content"><ui-account></ui-account></div>
+				<div class="content-section" id="content">
+					${this.user ? html`
+					<ui-home></ui-home>
+					` : html`
+					<ui-sign-up></ui-sign-up>
+					`}
+				</div>
+				${this.user ? html`
 				<div class="messages-section">
 					<button class="messages-close">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
@@ -160,6 +181,7 @@ export class MaiaApp extends Root {
 						</div>
 					</div>
 				</div>
+				` : html``}
 			</div>
 		</div>
 	</div>
