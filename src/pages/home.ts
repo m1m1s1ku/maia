@@ -83,10 +83,6 @@ export class HomeController extends Page {
             total: '400€',
         },
         {
-            name: 'Bricks',
-            total: this.data.totalValueOfMyBricks + '€',
-        },
-        {
             name: 'Crypto',
             total: '$1,374.87',
         },
@@ -180,19 +176,37 @@ export class HomeController extends Page {
                         </ul>
                     </div>
                 </section>
+                <h4>Bricks</h4>
                 <ul class="mdc-list value-gain mdc-list--two-line">
+                    <div>
                         <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                             <span class="mdc-list-item__text">
-                                <span class="mdc-list-item__primary-text">Total value:</span>
+                                <span class="mdc-list-item__primary-text">Properties:</span>
+                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${this.data.numberOfPropertiesInvestedIn}</span>
+                            </span>
+                        </li>
+                        <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
+                            <span class="mdc-list-item__text">
+                                <span class="mdc-list-item__primary-text">Value:</span>
                                 <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${this.data.totalValueOfMyBricks}€</span>
                             </span>
                         </li>
+                    </div>
+                    <div>
+                        <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
+                            <span class="mdc-list-item__text">
+                                <span class="mdc-list-item__primary-text">Investment:</span>
+                                <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${this.data.totalEarnedAmount.toFixed(2)}€</span>
+                            </span>
+                        </li>
+
                         <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                             <span class="mdc-list-item__text">
                                 <span class="mdc-list-item__primary-text">Capital gain:</span>
                                 <span class="mdc-list-item__secondary-text ${this.isBlurred ? 'blurry' : 'not-blurry'}">${this.data.totalValueOfMyBricksPercent.toFixed(2)}%</span>
                             </span>
                         </li>
+                    </div>
                 </ul>
             </div>
         </div>
