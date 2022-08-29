@@ -39,25 +39,25 @@ export class HomeController extends Page {
                     <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                         <span class="mdc-list-item__text">
                             <span class="mdc-list-item__primary-text">Savings</span>
-                            <span class="mdc-list-item__secondary-text">4439€</span>
+                            <span class="mdc-list-item__secondary-text blurry">4439€</span>
                         </span>
                     </li>
                     <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
                         <span class="mdc-list-item__text">
                             <span class="mdc-list-item__primary-text">Shares</span>
-                            <span class="mdc-list-item__secondary-text">400€</span>
+                            <span class="mdc-list-item__secondary-text blurry">400€</span>
                         </span>
                     </li>
                     <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
                         <span class="mdc-list-item__text">
                             <span class="mdc-list-item__primary-text">Bricks</span>
-                            <span class="mdc-list-item__secondary-text">954,27€</span>
+                            <span class="mdc-list-item__secondary-text blurry">954,27€</span>
                         </span>
                     </li>
                     <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
                         <span class="mdc-list-item__text">
                             <span class="mdc-list-item__primary-text">Crypto</span>
-                            <span class="mdc-list-item__secondary-text">$1,374.87</span>
+                            <span class="mdc-list-item__secondary-text blurry">$1,374.87</span>
                         </span>
                     </li>
                 </ul>
@@ -68,13 +68,13 @@ export class HomeController extends Page {
                     <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                         <span class="mdc-list-item__text">
                             <span class="mdc-list-item__primary-text">Visa Premier</span>
-                            <span class="mdc-list-item__secondary-text">-244.87€</span>
+                            <span class="mdc-list-item__secondary-text blurry">-244.87€</span>
                         </span>
                     </li>
                     <li class="mdc-list-item mdc-ripple-upgraded" tabindex="-1">
                         <span class="mdc-list-item__text">
                             <span class="mdc-list-item__primary-text">Mortgage</span>
-                            <span class="mdc-list-item__secondary-text">-155 772,31</span>
+                            <span class="mdc-list-item__secondary-text blurry">-155 772,31</span>
                         </span>
                     </li>
                 </ul>
