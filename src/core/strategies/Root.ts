@@ -94,7 +94,9 @@ export default abstract class Root extends LitElement {
 			await this.updateComplete;
 		}
 
-		if(this._content) {
+		// ScrollTop
+		// @todo : Add "is-needed" handling from loadable component
+		if(this._content && this._content.scrollTop !== 0) {
 			this._content.scrollTop = 0;
 		}
 
