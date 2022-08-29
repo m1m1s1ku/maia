@@ -63,7 +63,7 @@ export class MaiaApp extends Root {
 			  case 'TOKEN_REFRESHED':
 			  case 'USER_UPDATED':
 				this.prepareUser(session?.user);
-				this.load('home');
+				this.load('home', session?.user);
 				break;
 			  case 'PASSWORD_RECOVERY':
 				break;
