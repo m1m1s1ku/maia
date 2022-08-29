@@ -1,4 +1,4 @@
-import { User } from '@supabase/supabase-js';
+import { ApiError, Subscription, User } from '@supabase/supabase-js';
 import { html, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement } from 'lit/decorators/custom-element.js';
@@ -24,6 +24,11 @@ export class MaiaApp extends Root {
 	@state()
 	private emailHash = '';
 
+	private _authSubscription: {
+		data: Subscription | null,
+		error: ApiError | null,
+	} | null = null;
+
 	public get loadables(): string[] {
 		return [];
 	}
@@ -37,9 +42,9 @@ export class MaiaApp extends Root {
 		];
 	}
 
-	constructor() {
-		super();
-		supabase.auth.onAuthStateChange((change, session) => {
+	public connectedCallback(): void {
+		super.connectedCallback();
+		this._authSubscription = supabase.auth.onAuthStateChange((change, session) => {
 			switch(change) {
 				case 'USER_DELETED':
 				case 'SIGNED_OUT':
@@ -57,6 +62,12 @@ export class MaiaApp extends Root {
 					break;
 			}
 		});
+	}
+
+	public disconnectedCallback(): void {
+		super.disconnectedCallback();
+		this._authSubscription?.data?.unsubscribe();
+		this._authSubscription = null;
 	}
 
 	private inactiveSidebarLinks(linkElement: HTMLLinkElement, e: Event) {
@@ -78,7 +89,9 @@ export class MaiaApp extends Root {
 					<span class="app-icon">
 						<a href="home" @click=${(e:Event) => {
 							e.preventDefault();
-							this.load('home');
+							if(this.user) {
+								this.load('home');
+							}
 						}}>
 							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								viewBox="0 0 103.59 76.05" style="enable-background:new 0 0 103.59 76.05;" xml:space="preserve">
@@ -96,7 +109,9 @@ export class MaiaApp extends Root {
 					</span>
 					<p class="app-name"><a href="home" @click=${(e:Event) => {
 						e.preventDefault();
-						this.load('home');
+						if(this.user) {
+							this.load('home');
+						}
 					}}>Maia.</a></p>
 					<div class="search-wrapper">
 						<input class="search-input" type="text" placeholder="Search.">

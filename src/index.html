@@ -36,13 +36,11 @@
       justify-content: center;
       visibility: visible;
       opacity: 1;
-      transition: opacity 1s;
       user-select: none;
       text-align: center;
-      transition: opacity .3s;
     }
     
-    body > .loader.hidden { visibility: hidden; opacity: 0; }
+    body > .loader.hidden { visibility: hidden; }
     body >.loader .spinner { width: 300px; position: relative; margin: 0 auto; }
 
     @media (prefers-color-scheme: dark){
@@ -619,7 +617,5 @@
     <script src="./vendor/webcomponents-loader.js" defer></script>
     <script src="./vendor/web-animations-next-lite.min.js" defer></script>
   </head>
-  <body>
-    <maia-app></maia-app>
-  </body>
+  <body></body>
 </html>

@@ -31,25 +31,35 @@ function _injectLoader(){
 }
 
 async function _onDomLoaded(){
+  console.warn('domloaded');
   const loader = _injectLoader();
   document.body.appendChild(loader);
 
+  /* const fadeIn = loader.animate({
+    opacity: [0, 1],
+  }, 300);
+
+  await fadeIn.finished; */
+
   // Wait for app defined in context
-  await customElements.whenDefined('maia-app');
-
-  const promises = [];
-  const maia = document.querySelector('maia-app');
-  promises.push(document.fonts.ready);
-  // Load needed
-  promises.push(...maia.needed.map(needed => customElements.whenDefined(needed)));
-  // Bootstrap the others
-  promises.push(maia.bootstrap);
-
+  const promises = [
+    document.fonts.ready,
+  ];
+  const MaiaConstructor = await customElements.whenDefined('maia-app');
+  const maia = new MaiaConstructor();
+  promises.push(maia.bootstrap, ...maia.needed.map(needed => customElements.whenDefined(needed)));
   await Promise.all(promises);
 
-  console.warn('resolved');
-  
-  loader.parentElement.removeChild(loader);
+  document.body.appendChild(maia);
+
+  const fadeOut = loader.animate({
+    opacity: [1, 0],
+  }, 1000);
+  await fadeOut.finished;
+
+  setTimeout(() => {
+    loader.parentElement.removeChild(loader);
+  }, 1500);
 }
 
 (() => {
