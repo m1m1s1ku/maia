@@ -39,7 +39,7 @@ export class HomeController extends Page {
             <p>Home</p>
         </div>
         <div class="charts">
-            <section class="repartition">
+            <section class="repartition mobile-hidden">
                 <h4>Immo</h4>
                 <div class="repartition-chart-container"></div>
             </section>
