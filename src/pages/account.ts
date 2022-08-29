@@ -23,18 +23,30 @@ function prettyDate(time: string | undefined) {
 @customElement('ui-account')
 export class AccountController extends Page {
   public render(): void | TemplateResult {
+    const user = supabase.auth.user();
     return html`
       <div id="page" class="page" role="main">
         <div class="content-section-header">
             <p>Account</p>
         </div>
         <section class="user-info">
-            <p>Email: ${supabase.auth.user()?.email}</p>
-            <p>Created at: ${prettyDate(supabase.auth.user()?.created_at)}</p>
-            <p>Confirmation sent at: ${prettyDate(supabase.auth.user()?.confirmation_sent_at)}</p>
-            <p>Confirmed at: ${prettyDate(supabase.auth.user()?.confirmed_at)}</p>
-            <p>Updated at: ${prettyDate(supabase.auth.user()?.updated_at)}</p>
-            <p>Last sign in: ${prettyDate(supabase.auth.user()?.last_sign_in_at)}</p>
+            <p>Email: ${user?.email}</p>
+            <p>Created at: ${prettyDate(user?.created_at)}</p>
+            <p>Confirmation sent at: ${prettyDate(user?.confirmation_sent_at)}</p>
+            <p>Confirmed at: ${prettyDate(user?.confirmed_at)}</p>
+            <p>Updated at: ${prettyDate(user?.updated_at)}</p>
+            <p>Last sign in: ${prettyDate(user?.last_sign_in_at)}</p>
+        </section>
+        <section class="identities">
+          ${user?.identities ? html`
+          ${user.identities.map(identity => {
+            return html`
+            <div class="identity-provider">
+            <p>Provider: ${identity.provider.charAt(0).toUpperCase() + identity.provider.slice(1)}</p>
+            ${identity.identity_data ? html`<code>${JSON.stringify(identity.identity_data, null, 2)}</code>` : html``}
+            </div>
+            `;
+          })}` : html``}
         </section>
       </div>
     `;
