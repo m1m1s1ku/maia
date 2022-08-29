@@ -145,6 +145,7 @@ export class MaiaApp extends Root {
 			<div class="app-content">
 				<div class="app-sidebar">
 					<a href="home" class="app-sidebar-link" @click=${(e: Event) => {
+						if(!this.user) { return; }
 						const link = e.currentTarget as HTMLLinkElement;
 						this.inactiveSidebarLinks(link, e);
 						this.load('home');
@@ -155,6 +156,7 @@ export class MaiaApp extends Root {
 						</svg>
 					</a>
 					<a href="graphs" class="app-sidebar-link" @click=${(e: Event) => {
+						if(!this.user) { return; }
 						const link = e.currentTarget as HTMLLinkElement;
 						this.inactiveSidebarLinks(link, e);
 						this.load('graphs');
@@ -164,6 +166,7 @@ export class MaiaApp extends Root {
 						</svg>
 					</a>
 					<a href="settings" class="app-sidebar-link" @click=${(e: Event) => {
+						if(!this.user) { return; }
 						const link = e.currentTarget as HTMLLinkElement;
 						this.inactiveSidebarLinks(link, e);
 						this.load('settings');
