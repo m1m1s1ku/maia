@@ -125,7 +125,7 @@ export class HomeController extends Page {
             </div>
         </div>
         <div class="charts">
-            <section class="repartition mobile-hidden">
+            <section class="real-estate mobile-hidden">
                 <h4>Real estate</h4>
                 <div class="mdc-tab-bar" role="tablist">
                     <div class="mdc-tab-scroller">
