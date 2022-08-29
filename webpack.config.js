@@ -14,7 +14,7 @@ const ENV = process.argv.find(arg => arg.includes('production'))
 const OUTPUT_PATH = ENV === 'production' ? resolve('dist') : resolve('src');
 const INDEX_TEMPLATE = resolve('./src/index.html');
 
-const assetspath = './assets';
+const assetspath = './src/assets';
 const webcomponentsjs = './node_modules/@webcomponents/webcomponentsjs';
 const webanimationsjs = './node_modules/web-animations-js';
 
