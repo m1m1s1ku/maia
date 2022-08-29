@@ -124,11 +124,14 @@ export class MaiaApp extends Root {
 					</div>
 				</div>
 				<div class="app-header-right">
-					<button class="notification-btn">
+					<button class="mdc-icon-button notification-btn">
+						<div class="mdc-icon-button__ripple"></div>
+						<span class="mdc-icon-button__focus-ring"></span>
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
-						<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-						<path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
-					</button>
+							<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+							<path d="M13.73 21a2 2 0 0 1-3.46 0" />
+						</svg>
+                	</button>
 					<button class="profile-btn" @click=${() => {
 						if(this.user) {
 							this.load('account');
@@ -138,21 +141,26 @@ export class MaiaApp extends Root {
 					}}>
 					${this.user ? html`
 					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
-					<button class="logout-btn" @click=${async () => {
+					<button class="mdc-icon-button logout-btn" @click=${async () => {
 						const { error } = await supabase.auth.signOut();
 						if(error) {
 							console.warn('error while logout', error);
 						}
 						this.user = null;
 					}}>
+						<div class="mdc-icon-button__ripple"></div>
+						<span class="mdc-icon-button__focus-ring"></span>
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
 							<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
 							<polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
 						</svg>
 					</button>
 					` : html`
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>`}
-					</button>
+					<button class="mdc-icon-button">
+						<div class="mdc-icon-button__ripple"></div>
+						<span class="mdc-icon-button__focus-ring"></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>`}
+                	</button>
 				</div>
 				<button class="messages-btn">
 					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
@@ -176,19 +184,6 @@ export class MaiaApp extends Root {
 							<polyline points="9 22 9 12 15 12 15 22" />
 						</svg>
 					</a>
-					<!--<a href="graphs" class="app-sidebar-link" @click=${(e: Event) => {
-						if(!this.user) {
-							e.preventDefault();
-							return;
-						}
-						const link = e.currentTarget as HTMLLinkElement;
-						this.inactiveSidebarLinks(link, e);
-						this.load('graphs');
-					}}>
-						<svg class="link-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-pie-chart" viewBox="0 0 24 24">
-							<path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
-						</svg>
-					</a>-->
 					<a href="settings" class="app-sidebar-link" @click=${(e: Event) => {
 						if(!this.user) {
 							e.preventDefault();

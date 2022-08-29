@@ -38,8 +38,6 @@ export default abstract class Root extends LitElement {
 		LIGHT: '(prefers-color-scheme: light)',
 	};
 
-	private _onHashChangeListener!: (event: HashChangeEvent) => Promise<void>;
-
 	// Global loader control
 	// Needed for "progressive" app load
 	public abstract get needed(): string[];
@@ -63,16 +61,7 @@ export default abstract class Root extends LitElement {
 		super.connectedCallback();
 
 		if(window.matchMedia(this._queries.DARK).matches){ document.body.classList.add('night'); }
-
 		if(window.matchMedia(this._queries.LIGHT).matches){ document.body.classList.add('day'); }
-
-		this._onHashChangeListener = this._onHashChange.bind(this);
-		window.addEventListener('hashchange', this._onHashChangeListener, { passive: true });
-	}
-
-	public disconnectedCallback(): void {
-		super.disconnectedCallback();
-		window.removeEventListener('hashchange', this._onHashChangeListener);
 	}
 	
 	protected createRenderRoot(): this { return this; }
