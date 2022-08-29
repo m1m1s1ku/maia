@@ -7,6 +7,7 @@ import { query, state } from 'lit/decorators.js';
 import Page from '../core/strategies/Page';
 import { renderBreakdown, renderRepartitionChart } from '../charts';
 import { MDCList } from '@material/list';
+import { MDCMenu } from '@material/menu';
 
 enum ChartTypes {
     repartition = 'repartition',
@@ -18,9 +19,12 @@ export class HomeController extends Page {
   @query('.chart-container')
   private chartContainer!: HTMLDivElement;
   @query('.assets-list')
-  private assetsList!: HTMLUListElement;  
+  private assetsList!: HTMLUListElement;
   @query('.liabilities-list')
   private liabilitiesList!: HTMLUListElement;
+  @query('.class-switch')
+  private classSwitch!: HTMLHeadingElement;
+  private menu!: MDCMenu;
 
   @state()
   private isBlurred = true;
@@ -30,6 +34,8 @@ export class HomeController extends Page {
 
   @state()
   private chart: string = ChartTypes.repartition;
+  @state()
+  private selectedClass = 'Real estate';
 
   constructor() {
     super();
@@ -70,6 +76,14 @@ export class HomeController extends Page {
     renderRepartitionChart(this.chartContainer, this.data);
     MDCList.attachTo(this.assetsList);
     MDCList.attachTo(this.liabilitiesList);
+    this.menu = MDCMenu.attachTo(this.classSwitch);
+    this.classSwitch.addEventListener('MDCMenu:selected', (e: Event) => {
+        const event = e as CustomEvent<{ index: number; item: HTMLElement; }>;
+        const detail = event.detail;
+        const selected = detail.item.dataset.title;
+        if(selected !== 'Real estate') { return; }
+        this.selectedClass = selected ?? 'Real estate';
+    });
   }
 
   public render(): void | TemplateResult {
@@ -118,8 +132,22 @@ export class HomeController extends Page {
         </div>
         <div class="charts">
             <section class="real-estate mobile-hidden">
-                <div class="real-estate-header">
-                    <h4>Real estate</h4>
+                <div class="real-estate-header mdc-menu-surface--anchor">
+                    <h4 @click=${() => {
+                        this.menu.open = true;
+                    }}>${this.selectedClass}</h4>
+                    <div class="mdc-menu class-switch mdc-menu-surface">
+                        <ul class="mdc-deprecated-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
+                            <li class="mdc-deprecated-list-item" role="menuitem" data-title="Real estate">
+                                <span class="mdc-deprecated-list-item__ripple"></span>
+                                <span class="mdc-deprecated-list-item__text title">Real estate</span>
+                            </li>
+                            <li class="mdc-deprecated-list-item" role="menuitem" data-title="Crypto" disabled>
+                                <span class="mdc-deprecated-list-item__ripple"></span>
+                                <span class="mdc-deprecated-list-item__text title">Crypto</span>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="real-estate-actions">
                         <button class="mdc-icon-button ${this.chart === ChartTypes.repartition ? 'active' : ''}" role="tab" aria-selected=${this.chart === ChartTypes.repartition} tabindex="0" @click=${async() => {
                             this.chart = ChartTypes.repartition;
