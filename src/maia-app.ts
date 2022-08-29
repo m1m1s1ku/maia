@@ -49,17 +49,14 @@ export class MaiaApp extends Root {
 				case 'TOKEN_REFRESHED':
 				case 'USER_UPDATED':
 					this.user = session?.user;
+					if(this.user) {
+						this.emailHash = new MD5().update(session?.user?.email?.trim().toLowerCase() ?? '').digest('hex');
+					}
 					break;
 				case 'PASSWORD_RECOVERY':
 					break;
 			}
 		});
-
-		this.user = supabase.auth.user();
-		if(this.user) {
-			this.emailHash = new MD5().update(this.user.email?.trim().toLowerCase() ?? '').digest('hex');
-		}
-		this.requestUpdate();
 	}
 
 	private inactiveSidebarLinks(linkElement: HTMLLinkElement, e: Event) {

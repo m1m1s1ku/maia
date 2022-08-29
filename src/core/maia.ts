@@ -36,31 +36,29 @@ export async function load(route: string | null, content: HTMLElement): Promise<
     }
 
     const defaultTitle = 'Maia.';
-    const titleTemplate = '%s | ' + defaultTitle;
+    const componentName = 'ui-' + route;
 
-    const Component = customElements.get('ui-' + route);
+    const Component = customElements.get(componentName);
     content.classList.remove('full-width');
 
     const loaded = Component ? new Component() : null;
-    const willLoad = loaded as Page;
 
-    if(willLoad && willLoad.head && willLoad.head.title){
-        document.title = titleTemplate.replace('%s', willLoad.head.title);
-    } else {
-        document.title = defaultTitle;
-    }
+    document.title = defaultTitle;
 
     if(loaded){
-        content.innerHTML = '';
+        // content.innerHTML = '';
+        if(content.querySelector(componentName)){
+            return;
+        }
         content.appendChild(loaded);
     }
 
     window.scrollTo(0,0);
 
     const handle = window.requestAnimationFrame(() => {
-        if(!willLoad) { return; }
+        if(!loaded) { return; }
 
-        const pageContent = willLoad.querySelector('div');
+        const pageContent = loaded.querySelector('div');
         if(!pageContent){
             cancelAnimationFrame(handle);
             return;
