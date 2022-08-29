@@ -19,7 +19,6 @@
     "@material/tab-bar": "^14.0.0",
     "@material/textfield": "^14.0.0",
     "@supabase/supabase-js": "^1.35.6",
-    "@webcomponents/webcomponentsjs": "^2.6.0",
     "buffer": "^6.0.3",
     "file-loader": "^6.2.0",
     "lit": "^2.3.1",

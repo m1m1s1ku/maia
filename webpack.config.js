@@ -15,8 +15,6 @@ const OUTPUT_PATH = ENV === 'production' ? resolve('dist') : resolve('src');
 const INDEX_TEMPLATE = resolve('./src/index.html');
 
 const assetspath = join(__dirname, '/src/assets/*');
-const webcomponentsjs = './node_modules/@webcomponents/webcomponentsjs';
-const webanimationsjs = './node_modules/web-animations-js';
 
 const assets = [
   {
@@ -26,18 +24,6 @@ const assets = [
 ];
 
 const polyfills = [
-  {
-    from: resolve(`${webcomponentsjs}/webcomponents-*.js`),
-    to: join(OUTPUT_PATH, 'vendor', '[name][ext]')
-  },
-  {
-    from: resolve(`${webcomponentsjs}/bundles/*.js`),
-    to: join(OUTPUT_PATH, 'vendor', 'bundles', '[name][ext]')
-  },
-  {
-    from: resolve(`${webanimationsjs}/web-animations-next-lite.min.js`),
-    to: join(OUTPUT_PATH, 'vendor', '[name][ext]')
-  },
   {
     from: resolve('./src/robots.txt'),
     to: OUTPUT_PATH
