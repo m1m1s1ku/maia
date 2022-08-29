@@ -33,8 +33,7 @@ export class MaiaApp extends Root {
 			'ui-home',
 			'ui-account',
 			'ui-sign-up',
-			'ui-settings',
-			'uiliaow'
+			'ui-settings'
 		];
 	}
 

@@ -41,16 +41,15 @@ async function _onDomLoaded(){
   const maia = document.querySelector('maia-app');
   promises.push(document.fonts.ready);
   // Load needed
-  promises.push(...maia.needed);
+  promises.push(...maia.needed.map(needed => customElements.whenDefined(needed)));
   // Bootstrap the others
   promises.push(maia.bootstrap);
 
   await Promise.all(promises);
 
-  window.requestAnimationFrame(() => {
-    loader.classList.add('hidden');
-    loader.parentElement.removeChild(loader);
-  });
+  console.warn('resolved');
+  
+  loader.parentElement.removeChild(loader);
 }
 
 (() => {
