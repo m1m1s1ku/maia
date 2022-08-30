@@ -102,6 +102,7 @@
     }
 
     h3, h4 {
+      user-select: none;
       color: var(--main-color);
     }
 
@@ -149,6 +150,7 @@
     .app-header-right button {
       margin-left: 10px;
     }
+    .app-icon { user-select: none; }
     .app-name {
       color: var(--main-color);
       margin: 0;
@@ -161,6 +163,7 @@
     .app-name > a {
       color: var(--main-color);
       text-decoration: none;
+      user-select: none;
     }
 
     .search-wrapper {
@@ -324,6 +327,7 @@
       align-items: center;
       /* margin-bottom: 24px; */
       color: var(--main-color);
+      user-select: none;
     }
     .content-section-header p {
       font-size: 24px;
@@ -374,10 +378,13 @@
     }
 
     .message-box {
+      user-select: none;
       padding: 16px;
       display: flex;
       align-items: flex-start;
+      cursor: pointer;
       width: 100%;
+      transition: all .3s;
     }
     .message-box:hover {
       background-color: var(--message-box-hover);
