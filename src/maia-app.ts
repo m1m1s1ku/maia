@@ -5,6 +5,7 @@ import { html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
+import { guard } from 'lit/directives/guard.js';
 
 import Root from './core/strategies/Root';
 
@@ -37,7 +38,7 @@ export class MaiaApp extends Root {
 	public static readonly is: string = 'maia-app';
 
 	@state()
-	private user: User | null | undefined = undefined;
+	private user: User | null = null;
 	@state()
 	private emailHash = '';
 
@@ -65,12 +66,13 @@ export class MaiaApp extends Root {
 			switch(change) {
 			  case 'USER_DELETED':
 			  case 'SIGNED_OUT':
-				this.user = undefined;
+				this.user = null;
 				break;
 			  case 'SIGNED_IN':
 			  case 'TOKEN_REFRESHED':
 			  case 'USER_UPDATED':
-				this.load('home', this.prepareUser(session?.user));
+				this.user = session?.user ?? null;
+				this.load('home', this.user);
 				break;
 			  case 'PASSWORD_RECOVERY':
 				break;
@@ -86,7 +88,8 @@ export class MaiaApp extends Root {
 	}
 
 	private async firstLoad(path: string): Promise<HTMLElement | null> {
-		const user = this.prepareUser(auth.user());
+		this.user = auth.user();
+
 		if(path === undefined || path === null) {
 			path = Pages.root;
 		}
@@ -99,7 +102,7 @@ export class MaiaApp extends Root {
 			case Pages.account:
 			case Pages.signUp:
 			case Pages.settings: {
-				if(!user) { return await this.load(Pages.signUp, null); }
+				if(!this.user) { return await this.load(Pages.signUp, null); }
 
 				if(path && customElements.get('ui-' + path)) {
 					const isSignup = path === Pages.signUp;
@@ -107,25 +110,14 @@ export class MaiaApp extends Root {
 					if(isSignup) {
 						path = Pages.home;
 					}
-					return await this.load(path, user);
+					return await this.load(path, this.user);
 				}
 
-				return await this.load(Pages.home, user);
+				return await this.load(Pages.home, this.user);
 			}
 			default:
 				return await this.load(Pages.signUp, null);
 		}
-	}
-
-	private prepareUser(user: User | null | undefined){
-		if(!user) {
-			return;
-		}
-
-		this.emailHash = Md5.hashStr(user?.email?.trim().toLowerCase() ?? '');
-		this.user = user;
-
-		return user;
 	}
 
 	private redirect(page: Pages, link?: HTMLElement) {
@@ -189,7 +181,7 @@ export class MaiaApp extends Root {
 						e.preventDefault();
 						this.redirect(Pages.account);
 					}}>
-						<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
+					    ${guard([this.user], () => html`<img src="https://www.gravatar.com/avatar/${Md5.hashStr(this.user?.email?.trim().toLowerCase() ?? '')}" alt="Gravatar" />`)}
 					</button>
 					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${() => this.signOut()}>
 						${this.mdcIcon}
