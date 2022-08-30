@@ -82,7 +82,7 @@ export class SignUpController extends Page {
             }}>
                 <label class="email-field mdc-text-field mdc-text-field--filled">
                     <span class="mdc-text-field__ripple"></span>
-                    <input type="text" class="mdc-text-field__input" aria-labelledby="maia-email">
+                    <input type="text" autocomplete="username" class="mdc-text-field__input" aria-labelledby="maia-email">
                     <span class="mdc-floating-label" id="maia-email">Email</span>
                     <span class="mdc-line-ripple"></span>
                 </label>
