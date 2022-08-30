@@ -56,22 +56,11 @@ export class MaiaApp extends Root {
 		];
 	}
 
-	private prepareUser(user: User | null | undefined){
-		if(!user) {
-			return;
-		}
-
-		this.emailHash = Md5.hashStr(user?.email?.trim().toLowerCase() ?? '');
-		this.user = user;
-
-		return user;
-	}
-
 	constructor(path: string) {
 		super();
 
 		this.authSubscription = auth.onAuthStateChange((change, session) => {
-			console.warn('authsub', session);
+			// console.warn('authsub', session);
 			switch(change) {
 			  case 'USER_DELETED':
 			  case 'SIGNED_OUT':
@@ -80,8 +69,7 @@ export class MaiaApp extends Root {
 			  case 'SIGNED_IN':
 			  case 'TOKEN_REFRESHED':
 			  case 'USER_UPDATED':
-				this.prepareUser(session?.user);
-				this.load('home', session?.user);
+				this.load('home', this.prepareUser(session?.user));
 				break;
 			  case 'PASSWORD_RECOVERY':
 				break;
@@ -110,9 +98,7 @@ export class MaiaApp extends Root {
 			case Pages.account:
 			case Pages.signUp:
 			case Pages.settings: {
-				if(!user) {
-					return await this.load(Pages.signUp, null);
-				}
+				if(!user) { return await this.load(Pages.signUp, null); }
 
 				if(path && customElements.get('ui-' + path)) {
 					const isSignup = path === Pages.signUp;
@@ -130,6 +116,17 @@ export class MaiaApp extends Root {
 		}
 	}
 
+	private prepareUser(user: User | null | undefined){
+		if(!user) {
+			return;
+		}
+
+		this.emailHash = Md5.hashStr(user?.email?.trim().toLowerCase() ?? '');
+		this.user = user;
+
+		return user;
+	}
+
 	private redirect(page: Pages, link?: HTMLElement) {
 		const links = this.querySelectorAll('.app-sidebar a');
 		links.forEach(link => link.classList.remove('active'));
@@ -145,97 +142,106 @@ export class MaiaApp extends Root {
 	public render(): TemplateResult {
 		return html`<div class="maia">
 	<div class="app-container">
-		<div class="app-header">
-				<div class="app-header-left">
-					<span class="app-icon">
-						<a href="home" @click=${(e: Event) => {
-							e.preventDefault();
-							this.redirect(Pages.home);
-						}}>${MaiaLogo}</a>
-					</span>
-					<p class="app-name"><a href="home" @click=${(e: Event) => {
-						e.preventDefault();
-						this.redirect(Pages.home);
-					}}>Maia.</a></p>
-					<div class="search-wrapper">
-						<input class="search-input" type="text" placeholder="Search.">
-						${SearchIcon}
-					</div>
-				</div>
-				<div class="app-header-right">
-					<button aria-label="notifications" class="mdc-icon-button notification-btn">
-						<div class="mdc-icon-button__ripple"></div>
-						<span class="mdc-icon-button__focus-ring"></span>
-						${NotificationsIcon}
-                	</button>
-					<button aria-label="profile" class="profile-btn" @click=${(e: Event) => {
-						e.preventDefault();
-						this.redirect(Pages.account);
-					}}>
-					${this.user ? html`
-					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
-					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${async () => {
-						const { error } = await auth.signOut();
-						if(error) {
-							console.warn('error while logout', error);
-						}
-						this.user = null;
-						this.load(Pages.signUp, this.user);
-					}}>
-						<div class="mdc-icon-button__ripple"></div>
-						<span class="mdc-icon-button__focus-ring"></span>
-						${LogoutIcon}
-					</button>
-					` : html`
-					<button aria-label="login" class="mdc-icon-button">
-						<div class="mdc-icon-button__ripple"></div>
-						<span class="mdc-icon-button__focus-ring"></span>
-						${LoginIcon}
-                	</button>`}
-				</div>
-				<button aria-label="messages" class="messages-btn">
-					${MessagesCircle}
-				</button>
-			</div>
-			<div class="app-content">
-				<div class="app-sidebar">
-					<a href="home" class="app-sidebar-link ${location.pathname === '/' +Pages.home ? 'active' : ''}" @click=${(e: Event) => {
-						e.preventDefault();
-						const link = e.currentTarget as HTMLLinkElement;
-						this.redirect(Pages.home, link);
-					}}>${HomeIcon}</a>
-					<a href="settings" class="app-sidebar-link ${location.pathname === '/' +Pages.settings}" @click=${(e: Event) => {
-						e.preventDefault();
-
-						const link = e.currentTarget as HTMLLinkElement;
-						this.redirect(Pages.settings, link);
-					}}>${SettingsIcon}</a>
-				</div>
-				<div class="content-section" id="content"></div>
-				${this.user ? html`
-				<div class="messages-section">
-					<button class="messages-close">${CloseCircle}</button>
-					<div class="content-section-header">
-						<p>Messages</p>
-					</div>
-					<div class="messages">
-						<div class="message-box">
-							<img src="${WolveBan}" alt="profile image">
-							<div class="message-content">
-								<div class="message-header">
-									<div class="name">WolveBan</div>
-								</div>
-								<p class="message-line">[REDACTED]</p>
-								<p class="message-line time">Aug, 29</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				` : html``}
-			</div>
+		${this.appHeader}
+		<div class="app-content">
+			${this.sidebarSection}
+			<div class="content-section" id="content"></div>
+			${this.messagesSection}
 		</div>
 	</div>
 </div>`;
+	}
+
+	private get appHeader() {
+		return html`
+		<div class="app-header">
+			<div class="app-header-left">
+				<span class="app-icon">
+					<a href="home" @click=${(e: Event) => {
+						e.preventDefault();
+						this.redirect(Pages.home);
+					}}>${MaiaLogo}</a>
+				</span>
+				<p class="app-name"><a href="home" @click=${(e: Event) => {
+					e.preventDefault();
+					this.redirect(Pages.home);
+				}}>Maia.</a></p>
+				<div class="search-wrapper">
+					<input class="search-input" type="text" placeholder="Search.">
+					${SearchIcon}
+				</div>
+			</div>
+			<div class="app-header-right">
+				<button aria-label="notifications" class="mdc-icon-button notification-btn">
+					<div class="mdc-icon-button__ripple"></div>
+					<span class="mdc-icon-button__focus-ring"></span>
+					${NotificationsIcon}
+				</button>
+				<button aria-label="profile" class="profile-btn" @click=${(e: Event) => {
+					e.preventDefault();
+					this.redirect(Pages.account);
+				}}>
+				${this.user ? html`
+				<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
+				<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${async () => {
+					const { error } = await auth.signOut();
+					if(error) {
+						console.warn('error while logout', error);
+					}
+					this.user = null;
+					this.load(Pages.signUp, this.user);
+				}}>
+					<div class="mdc-icon-button__ripple"></div>
+					<span class="mdc-icon-button__focus-ring"></span>
+					${LogoutIcon}
+				</button>
+				` : html`
+				<button aria-label="login" class="mdc-icon-button">
+					<div class="mdc-icon-button__ripple"></div>
+					<span class="mdc-icon-button__focus-ring"></span>
+					${LoginIcon}
+				</button>`}
+			</div>
+			<button aria-label="messages" class="messages-btn">
+				${MessagesCircle}
+			</button>
+		</div>`;
+	}
+
+	private get sidebarSection() {
+		return html`<div class="app-sidebar">
+	<a href="home" class="app-sidebar-link ${location.pathname === '/' +Pages.home ? 'active' : ''}" @click=${(e: Event) => {
+		e.preventDefault();
+		const link = e.currentTarget as HTMLLinkElement;
+		this.redirect(Pages.home, link);
+	}}>${HomeIcon}</a>
+	<a href="settings" class="app-sidebar-link ${location.pathname === '/' +Pages.settings}" @click=${(e: Event) => {
+		e.preventDefault();
+		const link = e.currentTarget as HTMLLinkElement;
+		this.redirect(Pages.settings, link);
+	}}>${SettingsIcon}</a>
+</div>`;
+	}
+
+	private get messagesSection() {
+		return this.user ? html`<div class="messages-section">
+	<button class="messages-close">${CloseCircle}</button>
+	<div class="content-section-header">
+		<p>Messages</p>
+	</div>
+	<div class="messages">
+		<div class="message-box">
+			<img src="${WolveBan}" alt="profile image">
+			<div class="message-content">
+				<div class="message-header">
+					<div class="name">WolveBan</div>
+				</div>
+				<p class="message-line">[REDACTED]</p>
+				<p class="message-line time">Aug, 29</p>
+			</div>
+		</div>
+	</div>
+</div>` : html``;
 	}
 }
 
