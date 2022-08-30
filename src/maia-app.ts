@@ -1,7 +1,7 @@
 import type { Subscription, User } from '@supabase/supabase-js';
 import { Md5 } from 'ts-md5';
 
-import { html, TemplateResult, nothing } from 'lit';
+import { html, TemplateResult, nothing, render } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
@@ -22,7 +22,8 @@ import {
 	MessagesCircle, 
 	NotificationsIcon, 
 	SearchIcon, 
-	SettingsIcon 
+	SettingsIcon, 
+	MaiaLogoFull
 } from './svg';
 
 export enum Pages {
@@ -240,6 +241,10 @@ export class MaiaApp extends Root {
 			</div>
 		</div>`, 
 		() => nothing);
+	}
+
+	public renderLoader() {
+		return render(html`<div id="loader" class="loader"><div class="handler-content"><div id="spinner" class="spinner large">${MaiaLogoFull}</div></div></div>`, document.body);
 	}
 }
 
