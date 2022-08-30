@@ -244,7 +244,7 @@ export class MaiaApp extends Root {
 	}
 
 	public renderLoader() {
-		return render(html`<div id="loader" class="loader"><div class="handler-content"><div id="spinner" class="spinner large">${MaiaLogoFull}</div></div></div>`, document.body);
+		return render(html`<div id="loader" class="loader"><div class="handler-content"><div id="spinner" class="spinner large">${MaiaLogoFull}</div></div></div>`, document.body, { host: this });
 	}
 }
 
