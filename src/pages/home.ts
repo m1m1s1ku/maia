@@ -1,6 +1,7 @@
 import { html, TemplateResult } from 'lit-html';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { query, state } from 'lit/decorators.js';
+import { repeat } from 'lit/directives/repeat.js';
 
 import Page from '../core/strategies/Page';
 
@@ -104,14 +105,17 @@ export class HomeController extends Page {
   public render(): void | TemplateResult {
     const assets = [
         {
+            id: 'savings',
             name: 'Savings',
             total: '4439€',
         },
         {
+            id: 'shares',
             name: 'Shares',
             total: '400€',
         },
         {
+            id: 'crypto',
             name: 'Crypto',
             total: '$1,374.87',
         },
@@ -119,10 +123,12 @@ export class HomeController extends Page {
 
     const liabilities = [
         {
+            id: 'visa-ce',
             name: 'Visa Premier',
             total: '-244.87€',
         },
         {
+            id: 'mortgage',
             name: 'Mortgage',
             total: '-155 772,31€'
         }
@@ -195,7 +201,7 @@ export class HomeController extends Page {
                     <div class="listing">
                         <h3 class="mdc-typography--subtitle1">Assets</h3>
                         <ul class="mdc-list assets-list mdc-list--two-line">
-                            ${assets.map(asset => {
+                            ${repeat(assets, (asset) => asset.id, asset => {
                                 return html`
                                 <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                                     <span class="mdc-list-item__text">
@@ -210,7 +216,7 @@ export class HomeController extends Page {
                     <div class="listing">
                         <h3 class="mdc-typography--subtitle1">Liabilities</h3>
                         <ul class="mdc-list liabilities-list mdc-list--two-line">
-                            ${liabilities.map(liability => {
+                        ${repeat(liabilities, (liability) => liability.id, liability => {
                                 return html`
                                 <li class="mdc-list-item mdc-ripple-upgraded" tabindex="0">
                                     <span class="mdc-list-item__text">

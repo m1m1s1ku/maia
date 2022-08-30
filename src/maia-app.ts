@@ -4,6 +4,7 @@ import { Md5 } from 'ts-md5';
 import { html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 
 import Root from './core/strategies/Root';
 
@@ -173,39 +174,38 @@ export class MaiaApp extends Root {
 				</div>
 			</div>
 			<div class="app-header-right">
-				<button aria-label="notifications" class="mdc-icon-button notification-btn">
-					<div class="mdc-icon-button__ripple"></div>
-					<span class="mdc-icon-button__focus-ring"></span>
-					${NotificationsIcon}
-				</button>
-				<button aria-label="profile" class="profile-btn" @click=${(e: Event) => {
-					e.preventDefault();
-					this.redirect(Pages.account);
-				}}>
-				${this.user ? html`
-				<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
-				<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${async () => {
-					const { error } = await auth.signOut();
-					if(error) {
-						console.warn('error while logout', error);
-					}
-					this.user = null;
-					this.load(Pages.signUp, this.user);
-				}}>
-					<div class="mdc-icon-button__ripple"></div>
-					<span class="mdc-icon-button__focus-ring"></span>
-					${LogoutIcon}
-				</button>
-				` : html`
-				<button aria-label="login" class="mdc-icon-button">
-					<div class="mdc-icon-button__ripple"></div>
-					<span class="mdc-icon-button__focus-ring"></span>
-					${LoginIcon}
-				</button>`}
+				${when(this.user, () => html`
+					<button aria-label="notifications" class="mdc-icon-button notification-btn">
+						<div class="mdc-icon-button__ripple"></div>
+						<span class="mdc-icon-button__focus-ring"></span>
+						${NotificationsIcon}
+					</button>
+					<button aria-label="profile" class="profile-btn" @click=${(e: Event) => {
+						e.preventDefault();
+						this.redirect(Pages.account);
+					}}>
+					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
+					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${async () => {
+						const { error } = await auth.signOut();
+						if(error) {
+							console.warn('error while logout', error);
+						}
+						this.user = null;
+						this.load(Pages.signUp, this.user);
+					}}>
+						<div class="mdc-icon-button__ripple"></div>
+						<span class="mdc-icon-button__focus-ring"></span>
+						${LogoutIcon}
+					</button>`, 
+					() => html`
+					<button aria-label="login" class="mdc-icon-button">
+						<div class="mdc-icon-button__ripple"></div>
+						<span class="mdc-icon-button__focus-ring"></span>
+						${LoginIcon}
+					</button>
+				`)}
 			</div>
-			<button aria-label="messages" class="messages-btn">
-				${MessagesCircle}
-			</button>
+			${when(this.user, () => html`<button aria-label="messages" class="messages-btn">${MessagesCircle}</button>`)}
 		</div>`;
 	}
 
@@ -226,7 +226,7 @@ export class MaiaApp extends Root {
 	}
 
 	private get messagesSection() {
-		return this.user ? html`
+		return when(this.user, () => html`
 		<div class="messages-section">
 			<button class="messages-close">${CloseCircle}</button>
 			<div class="content-section-header">
@@ -244,7 +244,8 @@ export class MaiaApp extends Root {
 					</div>
 				</div>
 			</div>
-		</div>` : html``;
+		</div>`, 
+		() => html``);
 	}
 }
 
