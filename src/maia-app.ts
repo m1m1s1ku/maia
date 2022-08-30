@@ -185,14 +185,7 @@ export class MaiaApp extends Root {
 						this.redirect(Pages.account);
 					}}>
 					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
-					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${async () => {
-						const { error } = await auth.signOut();
-						if(error) {
-							console.warn('error while logout', error);
-						}
-						this.user = null;
-						this.load(Pages.signUp, this.user);
-					}}>
+					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${() => this.signOut()}>
 						<div class="mdc-icon-button__ripple"></div>
 						<span class="mdc-icon-button__focus-ring"></span>
 						${LogoutIcon}
@@ -209,18 +202,23 @@ export class MaiaApp extends Root {
 		</div>`;
 	}
 
+	private async signOut() {
+		const { error } = await auth.signOut();
+		if(error) { console.warn('error while logout', error); }
+		this.user = null;
+		this.load(Pages.signUp, this.user);
+	}
+
 	private get sidebarSection() {
 		return html`
 		<div class="app-sidebar">
 			<a href="home" class="app-sidebar-link ${location.pathname === '/' +Pages.home ? 'active' : ''}" @click=${(e: Event) => {
 				e.preventDefault();
-				const link = e.currentTarget as HTMLLinkElement;
-				this.redirect(Pages.home, link);
+				this.redirect(Pages.home,  e.currentTarget as HTMLLinkElement);
 			}}>${HomeIcon}</a>
 			<a href="settings" class="app-sidebar-link ${location.pathname === '/' +Pages.settings}" @click=${(e: Event) => {
 				e.preventDefault();
-				const link = e.currentTarget as HTMLLinkElement;
-				this.redirect(Pages.settings, link);
+				this.redirect(Pages.settings,  e.currentTarget as HTMLLinkElement);
 			}}>${SettingsIcon}</a>
 		</div>`;
 	}
