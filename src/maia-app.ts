@@ -1,7 +1,7 @@
 import type { Subscription, User } from '@supabase/supabase-js';
 import { Md5 } from 'ts-md5';
 
-import { html, TemplateResult } from 'lit';
+import { html, TemplateResult, nothing } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
@@ -239,7 +239,7 @@ export class MaiaApp extends Root {
 				</div>
 			</div>
 		</div>`, 
-		() => html``);
+		() => nothing);
 	}
 }
 
