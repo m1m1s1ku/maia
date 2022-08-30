@@ -243,9 +243,8 @@ export class MaiaApp extends Root {
 		() => nothing);
 	}
 
-	public renderLoader() {
+	public showLoader() {
 		render(html`<div id="loader" class="loader"><div class="handler-content"><div id="spinner" class="spinner large">${MaiaLogoFull}</div></div></div>`, document.body, { host: this });
-		return ;
 	}
 
 	public async showTime(): Promise<void> {
