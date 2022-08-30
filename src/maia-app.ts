@@ -23,7 +23,7 @@ import {
 	SettingsIcon 
 } from './svg';
 
-enum Pages {
+export enum Pages {
 	root = '',
 	home = 'home',
 	account = 'account',

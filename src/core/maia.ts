@@ -1,6 +1,5 @@
 import { User } from '@supabase/supabase-js';
-import { MaiaApp } from '../maia-app';
-import { pulseWith } from './animations';
+import { MaiaApp, Pages } from '../maia-app';
 
 export interface UpdatableElement extends HTMLElement {
     requestUpdate(name?: PropertyKey, oldValue?: unknown): Promise<unknown>;
@@ -40,9 +39,9 @@ export async function load(route: string | null, content: HTMLElement | null, us
     }
 
     if(user) {
-        route = route ?? 'home';
+        route = route ?? Pages.home;
     } else {
-        route = 'sign-up';
+        route = Pages.signUp;
     }
 
     const defaultTitle = 'Maia.';
@@ -64,21 +63,10 @@ export async function load(route: string | null, content: HTMLElement | null, us
         }
     };
 
-    const handle = window.requestAnimationFrame(() => {
-        if(!loaded){
-            return;
-        }
+    if(!loaded){ return null; }
 
-        removeChilds(content);
-        content.appendChild(loaded);
-        const pageContent = loaded.querySelector('div');
-        if(!pageContent){
-            cancelAnimationFrame(handle);
-            return;
-        }
-        const animation = pulseWith(300);			
-        pageContent.animate(animation.effect, animation.options);
-    });
+    removeChilds(content);
+    content.appendChild(loaded);
 
     return loaded;
 }

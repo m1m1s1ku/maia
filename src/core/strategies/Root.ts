@@ -1,5 +1,5 @@
 import { User } from '@supabase/supabase-js';
-import { LitElement, TemplateResult } from 'lit';
+import { LitElement } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { load, bootstrap } from '../maia';
 
@@ -35,8 +35,8 @@ export default abstract class Root extends LitElement {
 	// Async components
 	public abstract get loadables(): string[];
 
-	// Inside HTML app-component. (light-dom for easy styling!)
-	public abstract render(): TemplateResult;
+	// Render in <maia-app> light-dom
+	protected createRenderRoot(): this { return this; }
 
 	/**
 	 * Used by boot.js to make a real app-loader
@@ -55,11 +55,9 @@ export default abstract class Root extends LitElement {
 		if(window.matchMedia(this._queries.LIGHT).matches){ document.documentElement.classList.add('day'); }
 	}
 	
-	protected createRenderRoot(): this { return this; }
-
 	public async load(route: string | null, user?: User | null): Promise<HTMLElement | null> {
 		if(!this._content) {
-			// Workaround, boot will start routing asap (onDomLoaded)
+			// Workaround, maia-app will start routing asap (through native onDomLoaded)
 			// enforce LitElement update to happen before loading.
 			this.connectedCallback();
 			await this.updateComplete;
