@@ -5,36 +5,6 @@
   --maia-primary: #525252;
   --maia-font-primary: "Kotori Rose", -apple-system, BlinkMacSystemFont,
     “Segoe UI”, Roboto, Helvetica, Arial, sans-serif;
-  --box-elevation-1: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12); /* 1dp */
-  --box-elevation-2: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
-    0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12); /* 3dp */
-}
-
-body > .loader {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 999;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  visibility: visible;
-  opacity: 1;
-  user-select: none;
-  text-align: center;
-}
-
-body > .loader .spinner {
-  width: 300px;
-  position: relative;
-  margin: 0 auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -80,34 +50,45 @@ body > .loader .spinner {
   }
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html,
-body {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-}
+html, body { width: 100%; height: 100vh; margin: 0; }
 
 body {
   font-family: var(--maia-font-primary);
   overflow: hidden;
   justify-content: center;
   background-color: var(--app-container);
+
+  > .loader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+    opacity: 1;
+    user-select: none;
+    text-align: center;
+  
+    .spinner {
+      width: 300px;
+      position: relative;
+      margin: 0 auto;
+    }
+  }
 }
 
-h3,
-h4 {
-  user-select: none;
-  color: var(--main-color);
-}
-
-button,
-a {
-  cursor: pointer;
-}
+h3, h4 { user-select: none; color: var(--main-color); }
+button, a { cursor: pointer; }
 
 .app-container {
   width: 100%;
@@ -116,43 +97,47 @@ a {
   height: 100%;
   background-color: var(--app-container);
   transition: 0.2s;
+  button, input, optgroup, select, textarea {
+    font-family: var(--maia-font-primary);
+  }
 }
-.app-container button,
-.app-container input,
-.app-container optgroup,
-.app-container select,
-.app-container textarea {
-  font-family: var(--maia-font-primary);
-}
+
+.app-container 
 .app-content {
   display: flex;
   height: 100%;
   overflow: hidden;
   padding: 16px 24px 24px 0;
 }
+
 .app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 16px 24px;
-  position: relative;
-  color: var(--main-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px 24px;
+    position: relative;
+    color: var(--main-color);
+
+    .app-header-left,
+    .app-header-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .app-header-left {
+        flex-grow: 1;
+    }
+    .app-header-right button {
+        margin-left: 10px;
+    }
 }
-.app-header-left,
-.app-header-right {
-  display: flex;
-  align-items: center;
-}
-.app-header-left {
-  flex-grow: 1;
-}
-.app-header-right button {
-  margin-left: 10px;
-}
+
+
 .app-icon {
   user-select: none;
 }
+
 .app-name {
   color: var(--main-color);
   margin: 0;
@@ -160,12 +145,18 @@ a {
   line-height: 24px;
   font-weight: 700;
   margin: 0 32px 6px 16px;
+  
+  > a {
+    color: var(--main-color);
+    text-decoration: none;
+    user-select: none;
+  }
 }
 
-.app-name > a {
-  color: var(--main-color);
-  text-decoration: none;
-  user-select: none;
+.night {
+    .search-wrapper {
+        box-shadow: none;
+    }
 }
 
 .search-wrapper {
@@ -184,10 +175,6 @@ a {
   overflow: hidden;
 }
 
-.dark .search-wrapper {
-  box-shadow: none;
-}
-
 .search-input {
   border: none;
   flex: 1;
@@ -197,14 +184,14 @@ a {
   font-size: 16px;
   background-color: var(--search-area-bg);
   color: var(--main-color);
-}
-.search-input:placeholder {
-  color: var(--main-color);
-  opacity: 0.6;
+
+  &::placeholder {
+    color: var(--main-color);
+    opacity: 0.6;
+  }
 }
 
 .notification-btn {
-  color: var(--main-color);
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -212,10 +199,10 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--main-color);
 }
 
 .logout-btn {
-  color: var(--main-color);
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -223,6 +210,7 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--main-color);
 }
 
 .profile-btn {
@@ -246,10 +234,10 @@ a {
 }
 
 .profile-btn span {
-  color: var(--main-color);
   font-size: 16px;
   line-height: 24px;
   font-weight: 700;
+  color: var(--main-color);
 }
 
 .page-content {
@@ -290,7 +278,6 @@ a {
   background-color: var(--content-section);
   border-radius: 32px;
   padding: 24px 24px 24px 24px;
-  /* max-width: 50%; */
   overflow: hidden;
   height: 100%;
   display: flex;
@@ -328,7 +315,6 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-bottom: 24px; */
   color: var(--main-color);
   user-select: none;
 }
@@ -430,14 +416,9 @@ a {
   color: var(--secondary-color);
   opacity: 0.7;
 }
-.message-line.time {
-  text-align: right;
-  margin-bottom: 0;
-}
 
-.mode-switch.active .moon {
-  fill: var(--main-color);
-}
+.message-line.time { text-align: right; margin-bottom: 0; }
+.mode-switch.active .moon { fill: var(--main-color); }
 
 .messages-btn {
   border-radius: 4px 0 0 4px;
@@ -454,9 +435,7 @@ a {
   display: none;
 }
 
-.app-icon svg {
-  width: 50px;
-}
+.app-icon svg { width: 50px; }
 
 .login-form {
   display: flex;
@@ -465,14 +444,8 @@ a {
   padding: 10px;
 }
 
-.login-form label {
-  margin: 5px;
-}
-
-.login-form button {
-  display: block;
-  margin: 5px;
-}
+.login-form label { margin: 5px; }
+.login-form button { display: block; margin: 5px; }
 
 .login-form .login-actions {
   display: flex;
@@ -487,13 +460,7 @@ a {
   color: var(--main-color);
 }
 
-.value-gain {
-  display: flex;
-}
-
-.assets-liabilities {
-  display: flex;
-}
+.value-gain, .assets-liabilities{ display: flex; }
 
 .blurry {
   color: transparent !important;
@@ -501,23 +468,15 @@ a {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
-.user-info {
-  color: var(--main-color);
-}
-
-.connector {
-  display: flex;
-  flex-direction: column;
-}
+.user-info { color: var(--main-color); }
+.connector { display: flex; flex-direction: column; }
 
 .connector svg {
   width: 150px;
   padding: 10px;
 }
 
-.connector h4 {
-  margin: 0;
-}
+.connector h4 { margin: 0; }
 
 .page button:not(.mdc-icon-button) {
   margin-top: 12px;
@@ -541,8 +500,8 @@ a {
     display: flex;
   }
 }
+
 @media screen and (max-width: 720px) {
-  /*.app-name,*/
   .profile-btn span {
     display: none;
   }
@@ -560,6 +519,7 @@ a {
     margin-left: 4px;
   }
 }
+
 @media screen and (max-width: 520px) {
   .app-sidebar {
     padding: 4px 0px;
