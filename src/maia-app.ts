@@ -140,16 +140,17 @@ export class MaiaApp extends Root {
 	}
 
 	public render(): TemplateResult {
-		return html`<div class="maia">
-	<div class="app-container">
-		${this.appHeader}
-		<div class="app-content">
-			${this.sidebarSection}
-			<div class="content-section" id="content"></div>
-			${this.messagesSection}
-		</div>
-	</div>
-</div>`;
+		return html`
+		<div class="maia">
+			<div class="app-container">
+				${this.appHeader}
+				<div class="app-content">
+					${this.sidebarSection}
+					<div class="content-section" id="content"></div>
+					${this.messagesSection}
+				</div>
+			</div>
+		</div>`;
 	}
 
 	private get appHeader() {
@@ -209,39 +210,41 @@ export class MaiaApp extends Root {
 	}
 
 	private get sidebarSection() {
-		return html`<div class="app-sidebar">
-	<a href="home" class="app-sidebar-link ${location.pathname === '/' +Pages.home ? 'active' : ''}" @click=${(e: Event) => {
-		e.preventDefault();
-		const link = e.currentTarget as HTMLLinkElement;
-		this.redirect(Pages.home, link);
-	}}>${HomeIcon}</a>
-	<a href="settings" class="app-sidebar-link ${location.pathname === '/' +Pages.settings}" @click=${(e: Event) => {
-		e.preventDefault();
-		const link = e.currentTarget as HTMLLinkElement;
-		this.redirect(Pages.settings, link);
-	}}>${SettingsIcon}</a>
-</div>`;
+		return html`
+		<div class="app-sidebar">
+			<a href="home" class="app-sidebar-link ${location.pathname === '/' +Pages.home ? 'active' : ''}" @click=${(e: Event) => {
+				e.preventDefault();
+				const link = e.currentTarget as HTMLLinkElement;
+				this.redirect(Pages.home, link);
+			}}>${HomeIcon}</a>
+			<a href="settings" class="app-sidebar-link ${location.pathname === '/' +Pages.settings}" @click=${(e: Event) => {
+				e.preventDefault();
+				const link = e.currentTarget as HTMLLinkElement;
+				this.redirect(Pages.settings, link);
+			}}>${SettingsIcon}</a>
+		</div>`;
 	}
 
 	private get messagesSection() {
-		return this.user ? html`<div class="messages-section">
-	<button class="messages-close">${CloseCircle}</button>
-	<div class="content-section-header">
-		<p>Messages</p>
-	</div>
-	<div class="messages">
-		<div class="message-box">
-			<img src="${WolveBan}" alt="profile image">
-			<div class="message-content">
-				<div class="message-header">
-					<div class="name">WolveBan</div>
-				</div>
-				<p class="message-line">[REDACTED]</p>
-				<p class="message-line time">Aug, 29</p>
+		return this.user ? html`
+		<div class="messages-section">
+			<button class="messages-close">${CloseCircle}</button>
+			<div class="content-section-header">
+				<p>Messages</p>
 			</div>
-		</div>
-	</div>
-</div>` : html``;
+			<div class="messages">
+				<div class="message-box">
+					<img src="${WolveBan}" alt="profile image">
+					<div class="message-content">
+						<div class="message-header">
+							<div class="name">WolveBan</div>
+						</div>
+						<p class="message-line">[REDACTED]</p>
+						<p class="message-line time">Aug, 29</p>
+					</div>
+				</div>
+			</div>
+		</div>` : html``;
 	}
 }
 
