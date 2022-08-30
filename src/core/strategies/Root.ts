@@ -71,6 +71,8 @@ export default abstract class Root extends LitElement {
 			this._content.scrollTop = 0;
 		}
 
+		history.pushState(null, '', route);
+
 		return load(route, this._content, user);
 	}
 }

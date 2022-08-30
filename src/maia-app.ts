@@ -118,8 +118,7 @@ export class MaiaApp extends Root {
 					const isSignup = path === Pages.signUp;
 					// Logged in but trying to register.
 					if(isSignup) {
-						path = 'home';
-						history.pushState(null, '', path);
+						path = Pages.home;
 					}
 					return await this.load(path, user);
 				}
@@ -153,7 +152,6 @@ export class MaiaApp extends Root {
 		this.inactiveSidebarLinks();
 		const to = this.user ? page : Pages.signUp;
 		this.load(to, this.user);
-		history.pushState(null, '', to);
 	}
 
 	public render(): TemplateResult {
@@ -212,7 +210,6 @@ export class MaiaApp extends Root {
 						const link = e.currentTarget as HTMLLinkElement;
 						this.inactiveSidebarLinks(link, e);
 						this.load(Pages.home, this.user);
-						history.pushState(null, '', Pages.home);
 					}}>${HomeIcon}</a>
 					<a href="settings" class="app-sidebar-link" @click=${(e: Event) => {
 						if(!this.user) {
@@ -222,7 +219,6 @@ export class MaiaApp extends Root {
 						const link = e.currentTarget as HTMLLinkElement;
 						this.inactiveSidebarLinks(link, e);
 						this.load(Pages.settings, this.user);
-						history.pushState(null, '', Pages.settings);
 					}}>${SettingsIcon}</a>
 				</div>
 				<div class="content-section" id="content"></div>
