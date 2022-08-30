@@ -130,28 +130,16 @@ export class MaiaApp extends Root {
 		}
 	}
 
-	private inactiveSidebarLinks(linkElement?: HTMLLinkElement, e?: Event) {
-		const sidebar = linkElement?.parentElement ?? this.querySelector('.app-sidebar');
-		if(sidebar) {
-			const links = sidebar.querySelectorAll('a');
-			links.forEach(link => link.classList.remove('active'));
-		}
-		if(linkElement) {
-			linkElement.classList.add('active');
-		}
-		if(e) {
-			e.preventDefault();
-		}
-	}
+	private redirect(page: Pages, link?: HTMLElement) {
+		const links = this.querySelectorAll('.app-sidebar a');
+		links.forEach(link => link.classList.remove('active'));
 
-	private redirect(page: Pages, e?: Event) {
-		if(e) {
-			e.preventDefault();
-		}
-
-		this.inactiveSidebarLinks();
 		const to = this.user ? page : Pages.signUp;
 		this.load(to, this.user);
+
+		if(link) {
+			link.classList.add('active');
+		}
 	}
 
 	public render(): TemplateResult {
@@ -160,9 +148,15 @@ export class MaiaApp extends Root {
 		<div class="app-header">
 				<div class="app-header-left">
 					<span class="app-icon">
-						<a href="home" @click=${(e: Event) => this.redirect(Pages.home, e)}>${MaiaLogo}</a>
+						<a href="home" @click=${(e: Event) => {
+							e.preventDefault();
+							this.redirect(Pages.home);
+						}}>${MaiaLogo}</a>
 					</span>
-					<p class="app-name"><a href="home" @click=${(e: Event) => this.redirect(Pages.home, e)}>Maia.</a></p>
+					<p class="app-name"><a href="home" @click=${(e: Event) => {
+						e.preventDefault();
+						this.redirect(Pages.home);
+					}}>Maia.</a></p>
 					<div class="search-wrapper">
 						<input class="search-input" type="text" placeholder="Search.">
 						${SearchIcon}
@@ -174,7 +168,10 @@ export class MaiaApp extends Root {
 						<span class="mdc-icon-button__focus-ring"></span>
 						${NotificationsIcon}
                 	</button>
-					<button aria-label="profile" class="profile-btn" @click=${(e: Event) => this.redirect(Pages.account, e)}>
+					<button aria-label="profile" class="profile-btn" @click=${(e: Event) => {
+						e.preventDefault();
+						this.redirect(Pages.account);
+					}}>
 					${this.user ? html`
 					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
 					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${async () => {
@@ -202,23 +199,16 @@ export class MaiaApp extends Root {
 			</div>
 			<div class="app-content">
 				<div class="app-sidebar">
-					<a href="home" class="app-sidebar-link" @click=${(e: Event) => {
-						if(!this.user) {
-							e.preventDefault();
-							return;
-						}
+					<a href="home" class="app-sidebar-link ${location.pathname === '/' +Pages.home ? 'active' : ''}" @click=${(e: Event) => {
+						e.preventDefault();
 						const link = e.currentTarget as HTMLLinkElement;
-						this.inactiveSidebarLinks(link, e);
-						this.load(Pages.home, this.user);
+						this.redirect(Pages.home, link);
 					}}>${HomeIcon}</a>
-					<a href="settings" class="app-sidebar-link" @click=${(e: Event) => {
-						if(!this.user) {
-							e.preventDefault();
-							return;
-						}
+					<a href="settings" class="app-sidebar-link ${location.pathname === '/' +Pages.settings}" @click=${(e: Event) => {
+						e.preventDefault();
+
 						const link = e.currentTarget as HTMLLinkElement;
-						this.inactiveSidebarLinks(link, e);
-						this.load(Pages.settings, this.user);
+						this.redirect(Pages.settings, link);
 					}}>${SettingsIcon}</a>
 				</div>
 				<div class="content-section" id="content"></div>
