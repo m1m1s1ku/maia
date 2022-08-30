@@ -1,3 +1,5 @@
+import './index.scss';
+
 import type { Subscription, User } from '@supabase/supabase-js';
 import { Md5 } from 'ts-md5';
 
