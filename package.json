@@ -51,8 +51,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "lint": "eslint ./src/**/*.ts",
-    "postinstall": "npm run build",
+    "postinstall": "pnpm run build",
     "start": "webpack serve --mode development",
-    "deploy": "npm run build && cd dist && rsync -avz ./ -e \"ssh -p 4242\" root@100.82.63.92:/var/www/hostings/maia"
+    "deploy": "pnpm run lint && pnpm run build && cd dist && rsync -avz ./ -e \"ssh -p 4242\" root@100.82.63.92:/var/www/hostings/maia"
   }
 }
