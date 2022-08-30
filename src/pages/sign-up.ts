@@ -22,7 +22,7 @@ export class SignUpController extends Page {
         const email = this.emailField.querySelector('input')?.value;
         const password = this.passwordField.querySelector('input')?.value;
         if(!email || !password) {
-            // Show toast
+            // Show toast : error
             return;
         }
 
@@ -32,15 +32,14 @@ export class SignUpController extends Page {
         });
 
         if(error) {
-            // Show toast
+            // Show toast : error
             return;
         }
 
-        // Please check your email
+        // toast : Please check your email
 
         // redirect to account
         console.warn('registered', user);
-        // Maia()?.load('home');
     }
 
     private async signInWithGithub() {
@@ -84,31 +83,39 @@ export class SignUpController extends Page {
                     <span class="mdc-text-field__ripple"></span>
                     <input type="text" autocomplete="username" class="mdc-text-field__input" aria-labelledby="maia-email">
                     <span class="mdc-floating-label" id="maia-email">Email</span>
-                    <span class="mdc-line-ripple"></span>
+                    ${this.lineRipple}
                 </label>
                 <label class="password-field mdc-text-field mdc-text-field--filled">
                     <span class="mdc-text-field__ripple"></span>
                     <input autocomplete="current-password" type="password" class="mdc-text-field__input" aria-labelledby="maia-password">
                     <span class="mdc-floating-label" id="maia-password">Password</span>
-                    <span class="mdc-line-ripple"></span>
+                    ${this.lineRipple}
                 </label>
                 <div class="login-actions">
                     <button aria-label="Sign up" class="mdc-button mdc-button--raised" @click=${() => this.signUpWithEmail()}>
-                        <span class="mdc-button__ripple"></span>
+                        ${this.buttonRipple}
                         Sign up
                     </button>
                     <button aria-label="Sign in" type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithEmail()}>
-                        <span class="mdc-button__ripple"></span>
+                        ${this.buttonRipple}
                         Sign in
                     </button>
                     <button aria-label="Github" type="submit" class="mdc-button mdc-button--raised" @click=${() => this.signInWithGithub()}>
-                        <span class="mdc-button__ripple"></span>
+                        ${this.buttonRipple}
                         Github
                     </button>
                 </div>
             </form>
         </div>
         `;
+    }
+
+    private get lineRipple() {
+        return html`<span class="mdc-line__ripple"></span>` ;
+    }
+
+    private get buttonRipple() {
+        return html`<span class="mdc-button__ripple"></span>` ;
     }
 }
 
