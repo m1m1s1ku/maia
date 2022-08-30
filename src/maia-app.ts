@@ -244,7 +244,30 @@ export class MaiaApp extends Root {
 	}
 
 	public renderLoader() {
-		return render(html`<div id="loader" class="loader"><div class="handler-content"><div id="spinner" class="spinner large">${MaiaLogoFull}</div></div></div>`, document.body, { host: this });
+		render(html`<div id="loader" class="loader"><div class="handler-content"><div id="spinner" class="spinner large">${MaiaLogoFull}</div></div></div>`, document.body, { host: this });
+		return ;
+	}
+
+	public async showTime(): Promise<void> {
+		const duration = 1200;
+		const loader = document.body.querySelector('#loader');
+		if(!loader) { return; }
+		
+		const fadeOut = loader.animate({ opacity: [1, 0] }, duration);
+
+		await new Promise(resolve => {
+			if (document.body.querySelector('maia-app')) { return; }
+			document.body.appendChild(this);
+
+			setTimeout(() => {
+				if (!loader.parentElement) { return; }
+
+				loader.parentElement.removeChild(loader);
+				resolve(undefined);
+			}, duration / 2);
+		});
+
+		await fadeOut.finished;
 	}
 }
 
