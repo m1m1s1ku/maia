@@ -1,4 +1,4 @@
-import { html, TemplateResult } from 'lit-html';
+import { html, TemplateResult } from 'lit';
 import { query } from 'lit/decorators.js';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { Maia } from '../core/maia';

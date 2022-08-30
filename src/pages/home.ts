@@ -1,4 +1,4 @@
-import { html, TemplateResult } from 'lit-html';
+import { html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { query, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
