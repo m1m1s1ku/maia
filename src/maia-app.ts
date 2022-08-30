@@ -59,7 +59,7 @@ export class MaiaApp extends Root {
 		];
 	}
 
-	public listenForAuthChange() {
+	public listenForAuthChange(): void {
 		if(this.subscription) { return; }
 
 		this.subscription = auth.onAuthStateChange((change, session) => {
@@ -127,7 +127,7 @@ export class MaiaApp extends Root {
 		}
 	}
 
-	private redirect(page: Pages, link?: HTMLElement) {
+	private redirect(page: Pages, link?: HTMLElement): void {
 		const links = this.querySelectorAll('.app-sidebar a');
 		links.forEach(link => link.classList.remove('active'));
 
@@ -153,26 +153,25 @@ export class MaiaApp extends Root {
 		</div>`;
 	}
 
-	private get mdcIcon() {
+	private get mdcIcon(): TemplateResult {
 		return html`
 		<div class="mdc-icon-button__ripple"></div>
 		<span class="mdc-icon-button__focus-ring"></span>`;
 	}
 
-	private get appHeader() {
+	private preventAndNavigate(e: Event, page: Pages): void {
+		e.preventDefault();
+		this.redirect(page);
+	}
+
+	private get appHeader(): TemplateResult {
 		return html`
 		<div class="app-header">
 			<div class="app-header-left">
 				<span class="app-icon">
-					<a href="home" @click=${(e: Event) => {
-						e.preventDefault();
-						this.redirect(Pages.home);
-					}}>${MaiaLogo}</a>
+					<a href="home" @click=${(e: Event) => this.preventAndNavigate(e, Pages.home)}>${MaiaLogo}</a>
 				</span>
-				<p class="app-name"><a href="home" @click=${(e: Event) => {
-					e.preventDefault();
-					this.redirect(Pages.home);
-				}}>Maia.</a></p>
+				<p class="app-name"><a href="home" @click=${(e: Event) => this.preventAndNavigate(e, Pages.home)}>Maia.</a></p>
 				<div class="search-wrapper">
 					<input class="search-input" type="text" placeholder="Search.">
 					${SearchIcon}
@@ -184,10 +183,7 @@ export class MaiaApp extends Root {
 						${this.mdcIcon}
 						${NotificationsIcon}
 					</button>
-					<button aria-label="profile" class="profile-btn" @click=${(e: Event) => {
-						e.preventDefault();
-						this.redirect(Pages.account);
-					}}>
+					<button aria-label="profile" class="profile-btn" @click=${(e: Event) => this.preventAndNavigate(e, Pages.account)}>
 					    ${guard([this.user], () => html`<img src="https://www.gravatar.com/avatar/${Md5.hashStr(this.user?.email?.trim().toLowerCase() ?? '')}" alt="Gravatar" />`)}
 					</button>
 					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${() => this.signOut()}>
@@ -205,7 +201,7 @@ export class MaiaApp extends Root {
 		</div>`;
 	}
 
-	private async signOut() {
+	private async signOut(): Promise<void> {
 		this.subscription?.unsubscribe();
 		const { error } = await auth.signOut();
 		if(error) { console.warn('error while logout', error); }
@@ -213,7 +209,7 @@ export class MaiaApp extends Root {
 		this.load(Pages.signUp, this.user);
 	}
 
-	private get sidebarSection() {
+	private get sidebarSection(): TemplateResult {
 		return html`
 		<div class="app-sidebar">
 			<a href="home" class="app-sidebar-link ${location.pathname === '/' +Pages.home ? 'active' : ''}" @click=${(e: Event) => {
@@ -227,7 +223,7 @@ export class MaiaApp extends Root {
 		</div>`;
 	}
 
-	private get messagesSection() {
+	private get messagesSection(): symbol | TemplateResult {
 		return when(this.user, () => html`
 		<div class="messages-section">
 			<button class="messages-close">${CloseCircle}</button>
@@ -250,7 +246,7 @@ export class MaiaApp extends Root {
 		() => nothing);
 	}
 
-	public showLoader() {
+	public showLoader(): void {
 		render(html`<div id="loader" class="loader"><div class="handler-content"><div id="spinner" class="spinner large">${MaiaLogoFull}</div></div></div>`, document.body, { host: this });
 	}
 
