@@ -37,13 +37,7 @@ export default abstract class Root extends LitElement {
 
 	// Render in <maia-app> light-dom
 	protected createRenderRoot(): this { return this; }
-
-	/**
-	 * Used by boot.js to make a real app-loader
-	 *
-	 * @readonly
-	 * @memberof Root
-	 */
+	
 	public get bootstrap(): Promise<unknown[]> {
 		return bootstrap(this.loadables, this);
 	}
