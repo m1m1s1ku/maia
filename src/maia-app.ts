@@ -154,6 +154,12 @@ export class MaiaApp extends Root {
 		</div>`;
 	}
 
+	private get mdcIcon() {
+		return html`
+		<div class="mdc-icon-button__ripple"></div>
+		<span class="mdc-icon-button__focus-ring"></span>`;
+	}
+
 	private get appHeader() {
 		return html`
 		<div class="app-header">
@@ -176,24 +182,22 @@ export class MaiaApp extends Root {
 			<div class="app-header-right">
 				${when(this.user, () => html`
 					<button aria-label="notifications" class="mdc-icon-button notification-btn">
-						<div class="mdc-icon-button__ripple"></div>
-						<span class="mdc-icon-button__focus-ring"></span>
+						${this.mdcIcon}
 						${NotificationsIcon}
 					</button>
 					<button aria-label="profile" class="profile-btn" @click=${(e: Event) => {
 						e.preventDefault();
 						this.redirect(Pages.account);
 					}}>
-					<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
+						<img src="https://www.gravatar.com/avatar/${this.emailHash}" />
+					</button>
 					<button aria-label="logout" class="mdc-icon-button logout-btn" @click=${() => this.signOut()}>
-						<div class="mdc-icon-button__ripple"></div>
-						<span class="mdc-icon-button__focus-ring"></span>
+						${this.mdcIcon}
 						${LogoutIcon}
 					</button>`, 
 					() => html`
 					<button aria-label="login" class="mdc-icon-button">
-						<div class="mdc-icon-button__ripple"></div>
-						<span class="mdc-icon-button__focus-ring"></span>
+						${this.mdcIcon}
 						${LoginIcon}
 					</button>
 				`)}
