@@ -618,7 +618,7 @@
     }
     </style>
     <noscript>JavaScript is needed to use this website.</noscript>
-    <script>
+    <script id="boot">
         document.addEventListener('DOMContentLoaded', async function() {
           const MaiaConstructor = await customElements.whenDefined('maia-app');
         
@@ -632,6 +632,9 @@
             maia.routing, // First-load (pathname handling)
             maia.showTime(),
           ]);
+          
+          const scriptTag = document.getElementById('boot');
+          scriptTag.parentElement.removeChild(scriptTag);
         });
     </script>
     <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
