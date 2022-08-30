@@ -1,10 +1,12 @@
 import { html, TemplateResult } from 'lit-html';
 import { query } from 'lit/decorators.js';
 import { customElement } from 'lit/decorators/custom-element.js';
+import { Maia } from '../core/maia';
 
 import Page from '../core/strategies/Page';
 import supabase from '../supabase';
 
+// @todo : cleanup / styling
 @customElement('ui-sign-up')
 export class SignUpController extends Page {
     @query('.email-field')
@@ -19,6 +21,8 @@ export class SignUpController extends Page {
     }
 
     private async signUpWithEmail() {
+        Maia()?.listenForAuthChange();
+
         const email = this.emailField.querySelector('input')?.value;
         const password = this.passwordField.querySelector('input')?.value;
         if(!email || !password) {
@@ -43,6 +47,8 @@ export class SignUpController extends Page {
     }
 
     private async signInWithGithub() {
+        Maia()?.listenForAuthChange();
+
         const { user, error } = await supabase.auth.signIn({
             provider: 'github',
         });
@@ -50,6 +56,8 @@ export class SignUpController extends Page {
     }
 
     private async signInWithEmail() {
+        Maia()?.listenForAuthChange();
+
         const email = this.emailField.querySelector('input')?.value;
         const password = this.passwordField.querySelector('input')?.value;
         if(!email || !password) {

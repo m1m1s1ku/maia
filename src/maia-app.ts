@@ -42,10 +42,8 @@ export class MaiaApp extends Root {
 
 	@state()
 	private user: User | null = null;
-	@state()
-	private emailHash = '';
 
-	public authSubscription: Subscription | null = null;
+	public subscription: Subscription | null = null;
 	public routing: Promise<void>;
 
 	public get loadables(): string[] {
@@ -61,10 +59,10 @@ export class MaiaApp extends Root {
 		];
 	}
 
-	constructor(path: string) {
-		super();
+	public listenForAuthChange() {
+		if(this.subscription) { return; }
 
-		this.authSubscription = auth.onAuthStateChange((change, session) => {
+		this.subscription = auth.onAuthStateChange((change, session) => {
 			// console.warn('authsub', session);
 			switch(change) {
 			  case 'USER_DELETED':
@@ -81,12 +79,18 @@ export class MaiaApp extends Root {
 				break;
 			}
 		}).data;
+	}
 
+	constructor(path: string) {
+		super();
+
+		this.listenForAuthChange();
+
+		// @todo : fix darkmode toggle
 		this.routing = import('./pages').then(() => {
 			return this.firstLoad(path);
 		}).then(() => {
 			// At this point of time, we should be able to do anything with the App.
-			// @todo : fix darkmode toggle
 		});
 	}
 
@@ -202,6 +206,7 @@ export class MaiaApp extends Root {
 	}
 
 	private async signOut() {
+		this.subscription?.unsubscribe();
 		const { error } = await auth.signOut();
 		if(error) { console.warn('error while logout', error); }
 		this.user = null;
